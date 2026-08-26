@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buyer Marketplace - RuralFix & Agro MedKnow Nexus</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+
+  <div class="dashboard-layout">
+    <aside class="sidebar hide-on-mobile" id="sidebar">
+      <div class="sidebar-header">
+        <div style="font-weight: 700; color: var(--color-primary); font-size: 1.25rem;">RURALFIX</div>
+        <div style="font-size: 0.8rem; color: var(--color-secondary); font-weight: 600;">AGRO MEDKNOW NEXUS</div>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="farmer-dashboard.html" class="nav-item">📊 Dashboard</a>
+        <a href="my-crops.html" class="nav-item">🌾 My Crops</a>
+        <a href="ai-recommendation.html" class="nav-item">🧠 AI Recommendation</a>
+        <a href="disease-detection.html" class="nav-item">🔍 Disease Detection</a>
+        <a href="market.html" class="nav-item">📈 Market Prices</a>
+        <a href="buyers.html" class="nav-item active">🤝 Buyers Marketplace</a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <button class="mobile-menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+        <div class="topbar-actions ml-auto">
+          <a href="farmer-dashboard.html" class="text-muted">← Back to Dashboard</a>
+        </div>
+      </header>
+
+      <div class="dashboard-content">
+        
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <div>
+            <h1 style="font-size: 2rem;">Connect With Buyers</h1>
+            <p class="text-muted">Find buyers and get better market opportunities.</p>
+          </div>
+          <button class="btn btn-primary" onclick="document.getElementById('postCropModal').style.display='flex'">+ Post Crop for Sale</button>
+        </div>
+
+        <!-- Filters Section -->
+        <div class="card mb-4">
+          <div class="card-body">
+            <div class="grid grid-cols-2 grid-lg-cols-5 gap-2 align-items-end">
+              <div class="form-group mb-0">
+                <label class="form-label" style="font-size: 0.85rem;">Search Crop</label>
+                <input type="text" class="form-control" placeholder="e.g. Tomato">
+              </div>
+              <div class="form-group mb-0">
+                <label class="form-label" style="font-size: 0.85rem;">Location</label>
+                <input type="text" class="form-control" placeholder="City or District">
+              </div>
+              <div class="form-group mb-0">
+                <label class="form-label" style="font-size: 0.85rem;">Quantity (kg/tons)</label>
+                <input type="number" class="form-control" placeholder="Min Quantity">
+              </div>
+              <div class="form-group mb-0">
+                <label class="form-label" style="font-size: 0.85rem;">Min Price (₹)</label>
+                <input type="number" class="form-control" placeholder="Expected Price">
+              </div>
+              <div>
+                <button class="btn btn-secondary btn-block">Filter</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="mb-3">Active Buyer Requests</h3>
+        
+        <div class="grid grid-cols-1 grid-lg-cols-3 gap-3 mb-5">
+          <!-- Buyer Card 1 -->
+          <div class="card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-start mb-3">
+                <div>
+                  <h4 style="margin: 0;">Rajesh Trading Co. <span style="color: var(--color-primary);" title="Verified Buyer">✔️</span></h4>
+                  <p class="text-muted" style="font-size: 0.85rem; margin: 0;">📍 Coimbatore (12 km away)</p>
+                </div>
+                <span class="badge badge-primary">High Demand</span>
+              </div>
+              
+              <div style="background: var(--color-bg-secondary); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1rem;">
+                <div class="d-flex justify-content-between mb-2">
+                  <span class="text-muted">Required Crop:</span>
+                  <strong style="color: var(--color-primary);">Tomato (PKM-1)</strong>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                  <span class="text-muted">Quantity:</span>
+                  <strong>500 kg</strong>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <span class="text-muted">Offered Price:</span>
+                  <strong style="color: var(--color-success); font-size: 1.1rem;">₹35/kg</strong>
+                </div>
+              </div>
+              
+              <button class="btn btn-outline btn-block">Contact Buyer</button>
+            </div>
+          </div>
+          
+          <!-- Buyer Card 2 -->
+          <div class="card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-start mb-3">
+                <div>
+                  <h4 style="margin: 0;">Agri Fresh Mart <span style="color: var(--color-primary);" title="Verified Buyer">✔️</span></h4>
+                  <p class="text-muted" style="font-size: 0.85rem; margin: 0;">📍 Pollachi (25 km away)</p>
+                </div>
+              </div>
+              
+              <div style="background: var(--color-bg-secondary); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1rem;">
+                <div class="d-flex justify-content-between mb-2">
+                  <span class="text-muted">Required Crop:</span>
+                  <strong style="color: var(--color-primary);">Paddy (Rice)</strong>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                  <span class="text-muted">Quantity:</span>
+                  <strong>2 Tons</strong>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <span class="text-muted">Offered Price:</span>
+                  <strong style="color: var(--color-success); font-size: 1.1rem;">₹2,400/quintal</strong>
+                </div>
+              </div>
+              
+              <button class="btn btn-outline btn-block">Contact Buyer</button>
+            </div>
+          </div>
+        </div>
+
+        <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 2rem 0;">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h3 style="margin: 0;">My Crop Listings</h3>
+        </div>
+
+        <div class="card">
+          <div class="card-body text-center" style="padding: 3rem 1rem;">
+            <p class="text-muted mb-3">You haven't posted any crops for sale yet.</p>
+            <button class="btn btn-primary" onclick="document.getElementById('postCropModal').style.display='flex'">+ Post Crop for Sale</button>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Post Crop Modal -->
+  <div id="postCropModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+    <div class="card" style="width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto;">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h3 style="margin: 0;">Post Crop for Sale</h3>
+        <button style="background: none; border: none; font-size: 1.5rem; cursor: pointer;" onclick="document.getElementById('postCropModal').style.display='none'">×</button>
+      </div>
+      <div class="card-body">
+        <form onsubmit="event.preventDefault(); document.getElementById('postCropModal').style.display='none'; alert('Listing posted successfully!');">
+          <div class="form-group">
+            <label class="form-label">Crop Name</label>
+            <input type="text" class="form-control" placeholder="e.g. Tomato" required>
+          </div>
+          <div class="grid grid-cols-2">
+            <div class="form-group">
+              <label class="form-label">Quantity</label>
+              <input type="number" class="form-control" placeholder="e.g. 500" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Unit</label>
+              <select class="form-control">
+                <option>kg</option>
+                <option>Tons</option>
+                <option>Quintals</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Expected Price (₹)</label>
+            <input type="number" class="form-control" placeholder="Price per unit" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Location</label>
+            <input type="text" class="form-control" placeholder="Pickup location" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Available Date</label>
+            <input type="date" class="form-control" required>
+          </div>
+          
+          <div class="d-flex gap-2 mt-4">
+            <button type="button" class="btn btn-outline" style="flex: 1;" onclick="document.getElementById('postCropModal').style.display='none'">Cancel</button>
+            <button type="submit" class="btn btn-primary" style="flex: 1;">Post Listing</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

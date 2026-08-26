@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register - RuralFix & Agro MedKnow Nexus</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <style>
+    body {
+      background-color: var(--color-bg-main);
+      padding: 2rem 1.5rem;
+    }
+    .register-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: var(--color-bg-card);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--border-color);
+    }
+    
+    .form-header { text-align: center; margin-bottom: 2rem; }
+    .form-header h2 { color: var(--color-primary); }
+    
+    .role-cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    @media (min-width: 768px) {
+      .role-cards { grid-template-columns: repeat(3, 1fr); }
+    }
+    
+    .role-card {
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      background-color: var(--color-bg-card);
+    }
+    .role-card:hover {
+      border-color: var(--color-secondary);
+      background-color: var(--color-bg-secondary);
+    }
+    .role-card.active {
+      border-color: var(--color-primary);
+      background-color: var(--color-primary);
+      color: white;
+    }
+    
+    .grid-form {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    @media (min-width: 768px) {
+      .grid-form { grid-template-columns: 1fr 1fr; }
+    }
+    
+    .full-width { grid-column: 1 / -1; }
+    
+    .lang-selector { position: absolute; top: 1rem; right: 1.5rem; font-weight: 600; color: var(--color-text-muted); cursor: pointer; }
+  </style>
+</head>
+<body>
+
+  <div class="lang-selector">English | தமிழ்</div>
+
+  <div class="register-container">
+    <div class="form-header">
+      <h2>Create Account</h2>
+      <p class="text-muted">Join the smarter rural ecosystem</p>
+    </div>
+    
+    <form action="login.html" method="GET">
+      <label class="form-label">I am registering as a:</label>
+      <div class="role-cards">
+        <div class="role-card active" onclick="selectRole(this)">Farmer</div>
+        <div class="role-card" onclick="selectRole(this)">Citizen</div>
+        <div class="role-card" onclick="selectRole(this)">Authority</div>
+        <div class="role-card" onclick="selectRole(this)">Worker</div>
+        <div class="role-card" onclick="selectRole(this)">Buyer</div>
+      </div>
+      
+      <div class="grid-form">
+        <div class="form-group" style="margin-bottom: 0;">
+          <label class="form-label">Full Name</label>
+          <input type="text" class="form-control" placeholder="Enter your full name" required>
+        </div>
+        
+        <div class="form-group" style="margin-bottom: 0;">
+          <label class="form-label">Mobile Number</label>
+          <input type="tel" class="form-control" placeholder="10-digit mobile number" required>
+        </div>
+        
+        <div class="form-group full-width" style="margin-bottom: 0;">
+          <label class="form-label">Email Address (Optional)</label>
+          <input type="email" class="form-control" placeholder="Enter email address">
+        </div>
+        
+        <div class="form-group full-width" style="margin-bottom: 0;">
+          <label class="form-label">Location (Village / City)</label>
+          <input type="text" class="form-control" placeholder="Search location" required>
+        </div>
+        
+        <div class="form-group" style="margin-bottom: 0;">
+          <label class="form-label">Password</label>
+          <input type="password" class="form-control" placeholder="Create a password" required>
+        </div>
+        
+        <div class="form-group" style="margin-bottom: 0;">
+          <label class="form-label">Confirm Password</label>
+          <input type="password" class="form-control" placeholder="Confirm your password" required>
+        </div>
+      </div>
+      
+      <div style="margin-top: 2rem;">
+        <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+      </div>
+      
+      <div class="text-center" style="margin-top: 1.5rem;">
+        Already have an account? <a href="login.html">Login here</a>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    function selectRole(element) {
+      document.querySelectorAll('.role-card').forEach(card => card.classList.remove('active'));
+      element.classList.add('active');
+    }
+  </script>
+</body>
+</html>

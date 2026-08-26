@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Market Intelligence - RuralFix & Agro MedKnow Nexus</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <div class="dashboard-layout">
+    <aside class="sidebar hide-on-mobile" id="sidebar">
+      <div class="sidebar-header">
+        <div style="font-weight: 700; color: var(--color-primary); font-size: 1.25rem;">RURALFIX</div>
+        <div style="font-size: 0.8rem; color: var(--color-secondary); font-weight: 600;">AGRO MEDKNOW NEXUS</div>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="farmer-dashboard.html" class="nav-item">📊 Dashboard</a>
+        <a href="my-crops.html" class="nav-item">🌾 My Crops</a>
+        <a href="ai-recommendation.html" class="nav-item">🧠 AI Recommendation</a>
+        <a href="disease-detection.html" class="nav-item">🔍 Disease Detection</a>
+        <a href="market.html" class="nav-item active">📈 Market Prices</a>
+        <a href="buyers.html" class="nav-item">🤝 Buyers Marketplace</a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <button class="mobile-menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+        <div class="topbar-search hide-on-mobile">
+          <input type="text" placeholder="Search crops...">
+        </div>
+        <div class="topbar-actions ml-auto">
+          <a href="farmer-dashboard.html" class="text-muted">← Back to Dashboard</a>
+        </div>
+      </header>
+
+      <div class="dashboard-content">
+        
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <div>
+            <h1 style="font-size: 2rem;">Market Price Intelligence</h1>
+            <p class="text-muted">Know where and when to sell for the best price.</p>
+          </div>
+          
+          <div class="d-flex gap-2">
+            <select class="form-control" style="width: auto;">
+              <option>Tomato</option>
+              <option>Onion</option>
+              <option>Potato</option>
+            </select>
+            <select class="form-control" style="width: auto;">
+              <option>Coimbatore</option>
+              <option>Pollachi</option>
+              <option>Tiruppur</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="grid grid-cols-2 grid-lg-cols-4 mb-4 gap-3">
+          <div class="card card-body text-center">
+            <div class="text-muted mb-1">Current Avg Price</div>
+            <div style="font-size: 1.75rem; font-weight: 700; color: var(--color-primary);">₹32/kg</div>
+          </div>
+          <div class="card card-body text-center" style="background-color: #E6FFFA; border-color: #38A169;">
+            <div class="text-muted mb-1">Highest Price (Nearby)</div>
+            <div style="font-size: 1.75rem; font-weight: 700; color: #22543D;">₹38/kg</div>
+          </div>
+          <div class="card card-body text-center">
+            <div class="text-muted mb-1">Lowest Price</div>
+            <div style="font-size: 1.75rem; font-weight: 700; color: var(--color-text-main);">₹26/kg</div>
+          </div>
+          <div class="card card-body text-center">
+            <div class="text-muted mb-1">7-Day Trend</div>
+            <div style="font-size: 1.75rem; font-weight: 700; color: var(--color-success);">+8% 📈</div>
+          </div>
+        </div>
+
+        <div class="grid grid-lg-cols-3 gap-4">
+          
+          <!-- Chart -->
+          <div class="card" style="grid-column: span 2;">
+            <div class="card-header">
+              <h3 style="margin: 0;">Price Trend (Last 7 Days)</h3>
+            </div>
+            <div class="card-body">
+              <canvas id="priceChart" height="100"></canvas>
+            </div>
+          </div>
+          
+          <!-- Best Markets -->
+          <div class="card">
+            <div class="card-header" style="background-color: var(--color-accent);">
+              <h3 style="margin: 0; color: var(--color-text-main);">Best Markets Nearby</h3>
+            </div>
+            <div class="card-body">
+              <div style="display: flex; flex-direction: column; gap: 1rem;">
+                
+                <div style="border: 1px solid var(--color-success); padding: 1rem; border-radius: var(--radius-md); background: #f0fdf4; position: relative;">
+                  <span class="badge badge-success" style="position: absolute; top: -10px; right: 10px; background: var(--color-success); color: white;">Best Price</span>
+                  <h4 style="margin: 0 0 0.5rem 0;">Anna Market, Mettupalayam</h4>
+                  <div class="d-flex justify-content-between text-muted" style="font-size: 0.85rem; margin-bottom: 0.5rem;">
+                    <span>Distance: 12 km</span>
+                    <span>Demand: High</span>
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span style="font-size: 1.25rem; font-weight: bold; color: var(--color-primary);">₹38/kg</span>
+                    <a href="buyers.html" class="btn btn-primary" style="padding: 0.25rem 0.75rem; font-size: 0.85rem;">Sell Here</a>
+                  </div>
+                </div>
+                
+                <div style="border: 1px solid var(--border-color); padding: 1rem; border-radius: var(--radius-md);">
+                  <h4 style="margin: 0 0 0.5rem 0;">Uzhavar Sandhai, RS Puram</h4>
+                  <div class="d-flex justify-content-between text-muted" style="font-size: 0.85rem; margin-bottom: 0.5rem;">
+                    <span>Distance: 5 km</span>
+                    <span>Demand: Medium</span>
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span style="font-size: 1.25rem; font-weight: bold; color: var(--color-primary);">₹34/kg</span>
+                    <a href="buyers.html" class="btn btn-outline" style="padding: 0.25rem 0.75rem; font-size: 0.85rem;">Sell Here</a>
+                  </div>
+                </div>
+                
+                <div style="border: 1px solid var(--border-color); padding: 1rem; border-radius: var(--radius-md);">
+                  <h4 style="margin: 0 0 0.5rem 0;">Singanallur Market</h4>
+                  <div class="d-flex justify-content-between text-muted" style="font-size: 0.85rem; margin-bottom: 0.5rem;">
+                    <span>Distance: 8 km</span>
+                    <span>Demand: Normal</span>
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span style="font-size: 1.25rem; font-weight: bold; color: var(--color-primary);">₹30/kg</span>
+                    <a href="buyers.html" class="btn btn-outline" style="padding: 0.25rem 0.75rem; font-size: 0.85rem;">Sell Here</a>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+          
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const ctx = document.getElementById('priceChart').getContext('2d');
+    const chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Today'],
+        datasets: [{
+          label: 'Tomato Price (₹/kg)',
+          data: [28, 29, 28, 30, 31, 31, 32],
+          borderColor: '#1A4D2E',
+          backgroundColor: 'rgba(26, 77, 46, 0.1)',
+          borderWidth: 3,
+          fill: true,
+          tension: 0.4
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: { beginAtZero: false, min: 20 }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

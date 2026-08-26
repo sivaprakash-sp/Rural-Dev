@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Crop Recommendation - RuralFix & Agro MedKnow Nexus</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <style>
+    .ai-hero {
+      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+      color: white;
+      padding: 3rem 2rem;
+      border-radius: var(--radius-lg);
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .ai-hero h1 { color: var(--color-accent); margin-bottom: 0.5rem; }
+    
+    .loading-state {
+      display: none;
+      text-align: center;
+      padding: 3rem;
+    }
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid rgba(255, 195, 0, 0.3);
+      border-radius: 50%;
+      border-top-color: var(--color-accent);
+      animation: spin 1s ease-in-out infinite;
+      margin: 0 auto 1.5rem;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    
+    .result-state { display: none; }
+    
+    .recommendation-card {
+      border: 2px solid var(--color-accent);
+      background-color: #FFFAEB;
+    }
+    
+    .stat-circle {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: var(--color-bg-card);
+      border: 4px solid var(--color-success);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="dashboard-layout">
+    <!-- Sidebar (Same as dashboard) -->
+    <aside class="sidebar hide-on-mobile" id="sidebar">
+      <div class="sidebar-header">
+        <div style="font-weight: 700; color: var(--color-primary); font-size: 1.25rem;">RURALFIX</div>
+        <div style="font-size: 0.8rem; color: var(--color-secondary); font-weight: 600;">AGRO MEDKNOW NEXUS</div>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="farmer-dashboard.html" class="nav-item">📊 Dashboard</a>
+        <a href="my-crops.html" class="nav-item">🌾 My Crops</a>
+        <a href="ai-recommendation.html" class="nav-item active">🧠 AI Recommendation</a>
+        <a href="disease-detection.html" class="nav-item">🔍 Disease Detection</a>
+        <a href="market.html" class="nav-item">📈 Market Prices</a>
+        <a href="buyers.html" class="nav-item">🤝 Buyers Marketplace</a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <button class="mobile-menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+        <div class="topbar-actions ml-auto">
+          <a href="farmer-dashboard.html" class="text-muted">← Back to Dashboard</a>
+        </div>
+      </header>
+
+      <div class="dashboard-content container" style="max-width: 900px;">
+        
+        <div class="ai-hero">
+          <h1>AI Crop Recommendation</h1>
+          <p>Get smart crop suggestions based on your specific farm conditions to maximize yield.</p>
+        </div>
+        
+        <!-- Input Form -->
+        <div class="card" id="inputForm">
+          <div class="card-body">
+            <div class="grid grid-cols-1 grid-lg-cols-2" style="gap: 1.5rem;">
+              <div class="form-group mb-0">
+                <label class="form-label">Location</label>
+                <input type="text" class="form-control" value="Coimbatore, Tamil Nadu">
+              </div>
+              <div class="form-group mb-0">
+                <label class="form-label">Soil Type</label>
+                <select class="form-control">
+                  <option>Red Soil</option>
+                  <option>Black Soil</option>
+                  <option>Alluvial Soil</option>
+                  <option>Sandy Soil</option>
+                </select>
+              </div>
+              <div class="form-group mb-0">
+                <label class="form-label">Soil Condition (pH)</label>
+                <select class="form-control">
+                  <option>Normal (6.5 - 7.5)</option>
+                  <option>Acidic (< 6.5)</option>
+                  <option>Alkaline (> 7.5)</option>
+                </select>
+              </div>
+              <div class="form-group mb-0">
+                <label class="form-label">Season</label>
+                <select class="form-control">
+                  <option>Kharif (Monsoon)</option>
+                  <option>Rabi (Winter)</option>
+                  <option>Zaid (Summer)</option>
+                </select>
+              </div>
+              <div class="form-group mb-0">
+                <label class="form-label">Water Availability</label>
+                <select class="form-control">
+                  <option>High (Irrigation available)</option>
+                  <option>Medium (Partial irrigation)</option>
+                  <option>Low (Rainfed only)</option>
+                </select>
+              </div>
+              <div class="form-group mb-0">
+                <label class="form-label">Previous Crop</label>
+                <input type="text" class="form-control" placeholder="e.g. Tomato">
+              </div>
+            </div>
+            
+            <div class="mt-4 text-center">
+              <button class="btn btn-primary" style="font-size: 1.2rem; padding: 1rem 3rem;" onclick="generateAI()">✨ Generate AI Recommendation</button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Loading State -->
+        <div class="loading-state" id="loadingState">
+          <div class="spinner"></div>
+          <h3 style="color: var(--color-primary);">Analyzing your farm conditions...</h3>
+          <p class="text-muted">Running AI models against weather and soil data.</p>
+        </div>
+        
+        <!-- Result State -->
+        <div class="result-state mt-4" id="resultState">
+          <div class="card recommendation-card mb-4">
+            <div class="card-body">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <h2 style="color: var(--color-primary); margin: 0;">Recommended Crop: Groundnut</h2>
+                <div class="stat-circle">
+                  <span style="font-size: 1.5rem; color: var(--color-success);">92%</span>
+                  <span style="font-size: 0.6rem; color: var(--color-text-muted);">Match</span>
+                </div>
+              </div>
+              
+              <div class="grid grid-cols-2 grid-lg-cols-4 mb-4" style="gap: 1rem;">
+                <div style="background: white; padding: 1rem; border-radius: var(--radius-md); text-align: center;">
+                  <div class="text-muted" style="font-size: 0.85rem;">Water Req.</div>
+                  <div style="font-weight: 600; color: var(--color-primary);">Medium</div>
+                </div>
+                <div style="background: white; padding: 1rem; border-radius: var(--radius-md); text-align: center;">
+                  <div class="text-muted" style="font-size: 0.85rem;">Growing Period</div>
+                  <div style="font-weight: 600; color: var(--color-primary);">110 Days</div>
+                </div>
+                <div style="background: white; padding: 1rem; border-radius: var(--radius-md); text-align: center;">
+                  <div class="text-muted" style="font-size: 0.85rem;">Expected Benefit</div>
+                  <div style="font-weight: 600; color: var(--color-success);">High</div>
+                </div>
+                <div style="background: white; padding: 1rem; border-radius: var(--radius-md); text-align: center;">
+                  <div class="text-muted" style="font-size: 0.85rem;">Market Demand</div>
+                  <div style="font-weight: 600; color: var(--color-success);">High</div>
+                </div>
+              </div>
+              
+              <h4 style="color: var(--color-primary);">Why AI recommends this crop:</h4>
+              <p>Groundnut is highly suitable for your <strong>Red Soil</strong> during the <strong>Kharif</strong> season. Since your previous crop was Tomato, planting a legume like Groundnut will help restore nitrogen to your soil. The current market price trend for Groundnut is rising in your area.</p>
+              
+              <button class="btn btn-primary mt-3">Add to My Crops</button>
+            </div>
+          </div>
+          
+          <h3 class="mb-3">Alternative Options</h3>
+          <div class="grid grid-cols-1 grid-lg-cols-2 gap-3">
+            <div class="card card-body" style="border-left: 4px solid var(--color-warning);">
+              <h4 style="margin-bottom: 0.5rem;">Maize (85% Match)</h4>
+              <p class="text-muted" style="font-size: 0.9rem;">Good alternative, but requires slightly more water and fertilizer than Groundnut.</p>
+            </div>
+            <div class="card card-body" style="border-left: 4px solid var(--color-error); background-color: #FFF5F5;">
+              <h4 style="margin-bottom: 0.5rem; color: var(--color-error);">Avoid: Cotton</h4>
+              <p class="text-muted" style="font-size: 0.9rem;">Not recommended. Pest risk is currently high in your area for this season.</p>
+            </div>
+          </div>
+          
+          <div class="text-center mt-4">
+            <button class="btn btn-outline" onclick="resetAI()">Generate Another Recommendation</button>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script>
+    function generateAI() {
+      document.getElementById('inputForm').style.display = 'none';
+      document.getElementById('loadingState').style.display = 'block';
+      
+      // Simulate API call
+      setTimeout(() => {
+        document.getElementById('loadingState').style.display = 'none';
+        document.getElementById('resultState').style.display = 'block';
+      }, 2500);
+    }
+    
+    function resetAI() {
+      document.getElementById('resultState').style.display = 'none';
+      document.getElementById('inputForm').style.display = 'block';
+    }
+  </script>
+</body>
+</html>

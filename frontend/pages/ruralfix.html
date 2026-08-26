@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RuralFix Dashboard - RuralFix & Agro MedKnow Nexus</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <style>
+    .status-timeline {
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      margin-top: 1.5rem;
+    }
+    .status-timeline::before {
+      content: '';
+      position: absolute;
+      top: 15px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--border-color);
+      z-index: 1;
+    }
+    .status-step {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.75rem;
+      color: var(--color-text-muted);
+    }
+    .status-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--color-bg-card);
+      border: 2px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+    
+    .status-step.active { color: var(--color-primary); font-weight: 600; }
+    .status-step.active .status-circle { border-color: var(--color-primary); background: var(--color-bg-secondary); color: var(--color-primary); }
+    
+    .status-step.completed { color: var(--color-success); }
+    .status-step.completed .status-circle { border-color: var(--color-success); background: var(--color-success); color: white; }
+  </style>
+</head>
+<body>
+
+  <div class="dashboard-layout">
+    <aside class="sidebar hide-on-mobile" id="sidebar">
+      <div class="sidebar-header">
+        <div style="font-weight: 700; color: var(--color-primary); font-size: 1.25rem;">RURALFIX</div>
+        <div style="font-size: 0.8rem; color: var(--color-secondary); font-weight: 600;">CITIZEN PORTAL</div>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="ruralfix.html" class="nav-item active">🏠 My Reports</a>
+        <a href="report-complaint.html" class="nav-item">📝 Report Problem</a>
+        <a href="notifications.html" class="nav-item">🔔 Notifications</a>
+        <a href="profile.html" class="nav-item">👤 Profile</a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <button class="mobile-menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+        <div class="topbar-actions ml-auto">
+          <a href="report-complaint.html" class="btn btn-primary" style="padding: 0.5rem 1rem;">+ Report Problem</a>
+        </div>
+      </header>
+
+      <div class="dashboard-content">
+        
+        <div class="mb-4">
+          <h1 style="font-size: 2rem;">RuralFix</h1>
+          <p class="text-muted">Report problems. Track progress. Build better communities.</p>
+        </div>
+
+        <div class="grid grid-cols-2 grid-lg-cols-4 mb-4 gap-3">
+          <div class="card card-body text-center">
+            <div class="text-muted mb-1">Total Reported</div>
+            <div style="font-size: 1.75rem; font-weight: 700; color: var(--color-text-main);">4</div>
+          </div>
+          <div class="card card-body text-center">
+            <div class="text-muted mb-1">In Progress</div>
+            <div style="font-size: 1.75rem; font-weight: 700; color: var(--color-warning);">1</div>
+          </div>
+          <div class="card card-body text-center">
+            <div class="text-muted mb-1">Resolved</div>
+            <div style="font-size: 1.75rem; font-weight: 700; color: var(--color-success);">2</div>
+          </div>
+          <div class="card card-body text-center">
+            <div class="text-muted mb-1">Pending Verification</div>
+            <div style="font-size: 1.75rem; font-weight: 700; color: var(--color-primary);">1</div>
+          </div>
+        </div>
+
+        <div class="card mb-4">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h3 style="margin: 0;">My Recent Reports</h3>
+            <div class="d-flex gap-2">
+              <select class="form-control" style="padding: 0.25rem 0.5rem;">
+                <option>All Statuses</option>
+                <option>Pending</option>
+                <option>In Progress</option>
+                <option>Resolved</option>
+              </select>
+            </div>
+          </div>
+          <div class="card-body" style="display: flex; flex-direction: column; gap: 1.5rem;">
+            
+            <!-- Complaint 1 -->
+            <div style="border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.5rem;">
+              <div class="d-flex justify-content-between align-items-start mb-3">
+                <div>
+                  <div class="d-flex align-items-center gap-2 mb-1">
+                    <span class="badge badge-warning">Road</span>
+                    <span style="font-size: 0.85rem; color: var(--color-text-muted);">ID: RF-2026-00125</span>
+                  </div>
+                  <h4 style="margin: 0;">Potholes on Main Village Road</h4>
+                  <p class="text-muted" style="margin: 0.5rem 0 0 0; font-size: 0.9rem;">Near the panchayat office, creating a hazard for tractors.</p>
+                </div>
+                <div class="text-right">
+                  <div style="font-size: 0.85rem; color: var(--color-text-muted);">Reported: Aug 24, 2026</div>
+                </div>
+              </div>
+              
+              <div class="status-timeline">
+                <div class="status-step completed">
+                  <div class="status-circle">✓</div>
+                  <span>Reported</span>
+                </div>
+                <div class="status-step completed">
+                  <div class="status-circle">✓</div>
+                  <span>Assigned</span>
+                </div>
+                <div class="status-step active">
+                  <div class="status-circle">3</div>
+                  <span>In Progress</span>
+                </div>
+                <div class="status-step">
+                  <div class="status-circle">4</div>
+                  <span>Resolved</span>
+                </div>
+                <div class="status-step">
+                  <div class="status-circle">5</div>
+                  <span>Verified</span>
+                </div>
+              </div>
+              
+              <div class="mt-3 text-right">
+                <a href="#" class="btn btn-outline" style="padding: 0.5rem 1rem; font-size: 0.85rem;">View Details</a>
+              </div>
+            </div>
+            
+            <!-- Complaint 2 -->
+            <div style="border: 1px solid var(--color-success); background-color: #f0fdf4; border-radius: var(--radius-md); padding: 1.5rem;">
+              <div class="d-flex justify-content-between align-items-start mb-3">
+                <div>
+                  <div class="d-flex align-items-center gap-2 mb-1">
+                    <span class="badge badge-primary">Street Light</span>
+                    <span style="font-size: 0.85rem; color: var(--color-text-muted);">ID: RF-2026-00084</span>
+                  </div>
+                  <h4 style="margin: 0;">Broken Street Light near Temple</h4>
+                  <p class="text-muted" style="margin: 0.5rem 0 0 0; font-size: 0.9rem;">Light is completely shattered.</p>
+                </div>
+                <div class="text-right">
+                  <div style="font-size: 0.85rem; color: var(--color-text-muted);">Reported: Aug 20, 2026</div>
+                  <div class="badge badge-success mt-1">Needs Verification</div>
+                </div>
+              </div>
+              
+              <div class="status-timeline">
+                <div class="status-step completed"><div class="status-circle">✓</div><span>Reported</span></div>
+                <div class="status-step completed"><div class="status-circle">✓</div><span>Assigned</span></div>
+                <div class="status-step completed"><div class="status-circle">✓</div><span>In Progress</span></div>
+                <div class="status-step completed"><div class="status-circle">✓</div><span>Resolved</span></div>
+                <div class="status-step active"><div class="status-circle">5</div><span>Verified</span></div>
+              </div>
+              
+              <div class="mt-3" style="display: flex; gap: 1rem; align-items: center; border-top: 1px solid var(--color-success); padding-top: 1rem;">
+                <img src="https://images.unsplash.com/photo-1512402120023-386b0dfb2f34?auto=format&fit=crop&q=80" style="width: 80px; height: 80px; object-fit: cover; border-radius: var(--radius-sm);" alt="Fixed Light">
+                <div>
+                  <div style="font-weight: 600; font-size: 0.9rem;">Worker Note:</div>
+                  <div class="text-muted" style="font-size: 0.85rem;">"Bulb replaced and wiring checked."</div>
+                </div>
+                <div class="ml-auto">
+                  <button class="btn btn-outline" style="padding: 0.5rem 1rem; font-size: 0.85rem; border-color: var(--color-error); color: var(--color-error);">Report Issue</button>
+                  <button class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.85rem; background-color: var(--color-success);">Verify Resolution</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+</body>
+</html>

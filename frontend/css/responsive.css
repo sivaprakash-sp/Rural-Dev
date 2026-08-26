@@ -1,0 +1,68 @@
+/* Mobile First Approach - Base styles are already mobile optimized in style.css and components.css */
+
+/* Tablet (768px and up) */
+@media (min-width: 768px) {
+  /* Layout utilities */
+  .d-md-flex { display: flex; }
+  .d-md-block { display: block; }
+  .d-md-none { display: none; }
+  
+  .flex-md-row { flex-direction: row; }
+  
+  /* Grid System Basic */
+  .grid { display: grid; }
+  .grid-cols-2 { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+  .grid-cols-3 { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .grid-cols-4 { grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+  
+  /* Typography */
+  h1 { font-size: 3rem; }
+  h2 { font-size: 2.5rem; }
+  
+  /* Layout padding */
+  .section { padding: 4rem 0; }
+}
+
+/* Desktop (1024px and up) */
+@media (min-width: 1024px) {
+  .d-lg-flex { display: flex; }
+  .d-lg-block { display: block; }
+  .d-lg-none { display: none; }
+  
+  .grid-lg-cols-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid-lg-cols-4 { grid-template-columns: repeat(4, 1fr); }
+  
+  /* Typography */
+  h1 { font-size: 3.5rem; }
+  
+  .section { padding: 6rem 0; }
+}
+
+/* Large Desktop (1440px and up) */
+@media (min-width: 1440px) {
+  .container {
+    max-width: 1400px;
+  }
+}
+
+/* Specific Mobile Overrides (Max-width 767px) */
+@media (max-width: 767px) {
+  .hide-on-mobile {
+    display: none !important;
+  }
+  
+  .section {
+    padding: 2.5rem 0;
+  }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  /* Ensure touch targets are at least 44px */
+  .btn, .form-control, a {
+    min-height: 44px;
+  }
+}

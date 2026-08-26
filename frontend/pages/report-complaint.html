@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Report Problem - RuralFix</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <style>
+    .step-indicator {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .step {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--color-bg-secondary);
+      color: var(--color-primary);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: bold;
+      border: 2px solid var(--color-primary);
+    }
+    .step.active { background: var(--color-primary); color: white; }
+    .step-line { height: 2px; width: 50px; background: var(--border-color); }
+    
+    .category-cards {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;
+    }
+    @media (min-width: 768px) { .category-cards { grid-template-columns: repeat(3, 1fr); } }
+    
+    .category-card {
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+    .category-card:hover { border-color: var(--color-secondary); }
+    .category-card.active { border-color: var(--color-primary); background: var(--color-bg-secondary); }
+    .category-card span { font-size: 2rem; display: block; margin-bottom: 0.5rem; }
+    
+    .photo-upload {
+      border: 2px dashed var(--color-primary);
+      padding: 3rem 1rem;
+      text-align: center;
+      border-radius: var(--radius-md);
+      background: var(--color-bg-secondary);
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="dashboard-layout">
+    <aside class="sidebar hide-on-mobile" id="sidebar">
+      <div class="sidebar-header">
+        <div style="font-weight: 700; color: var(--color-primary); font-size: 1.25rem;">RURALFIX</div>
+        <div style="font-size: 0.8rem; color: var(--color-secondary); font-weight: 600;">CITIZEN PORTAL</div>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="ruralfix.html" class="nav-item">🏠 My Reports</a>
+        <a href="report-complaint.html" class="nav-item active">📝 Report Problem</a>
+        <a href="notifications.html" class="nav-item">🔔 Notifications</a>
+        <a href="profile.html" class="nav-item">👤 Profile</a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <button class="mobile-menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+        <div class="topbar-actions ml-auto">
+          <a href="ruralfix.html" class="text-muted">Cancel</a>
+        </div>
+      </header>
+
+      <div class="dashboard-content container" style="max-width: 800px;">
+        
+        <h1 class="text-center mb-4">Report a Problem</h1>
+        
+        <div class="step-indicator">
+          <div class="step active" id="step1-indicator">1</div>
+          <div class="step-line"></div>
+          <div class="step" id="step2-indicator">2</div>
+          <div class="step-line"></div>
+          <div class="step" id="step3-indicator">3</div>
+        </div>
+        
+        <div class="card">
+          <div class="card-body">
+            
+            <!-- Step 1: Category -->
+            <div id="step1">
+              <h3 class="mb-3 text-center">What is the problem?</h3>
+              <div class="category-cards mb-4">
+                <div class="category-card" onclick="selectCategory(this)"><span class="text-primary">🛣️</span>Road</div>
+                <div class="category-card" onclick="selectCategory(this)"><span class="text-primary">💧</span>Water</div>
+                <div class="category-card" onclick="selectCategory(this)"><span class="text-primary">💡</span>Street Light</div>
+                <div class="category-card" onclick="selectCategory(this)"><span class="text-primary">🌊</span>Drainage</div>
+                <div class="category-card" onclick="selectCategory(this)"><span class="text-primary">🏥</span>Public Infra</div>
+                <div class="category-card" onclick="selectCategory(this)"><span class="text-primary">❓</span>Other</div>
+              </div>
+              <div class="text-right">
+                <button class="btn btn-primary" onclick="nextStep(2)">Continue →</button>
+              </div>
+            </div>
+            
+            <!-- Step 2: Photo -->
+            <div id="step2" style="display: none;">
+              <h3 class="mb-3 text-center">Take a photo of the problem</h3>
+              <div class="photo-upload mb-4">
+                <span style="font-size: 3rem; display: block; margin-bottom: 1rem;">📸</span>
+                <h4>Tap to open camera or select photo</h4>
+              </div>
+              <div class="d-flex justify-content-between">
+                <button class="btn btn-outline" onclick="nextStep(1)">← Back</button>
+                <button class="btn btn-primary" onclick="nextStep(3)">Continue →</button>
+              </div>
+            </div>
+            
+            <!-- Step 3: Location & Details -->
+            <div id="step3" style="display: none;">
+              <h3 class="mb-3 text-center">Where is it located?</h3>
+              
+              <div class="form-group">
+                <label class="form-label">Location</label>
+                <div class="d-flex gap-2">
+                  <input type="text" class="form-control" placeholder="Village name, street, landmark...">
+                  <button class="btn btn-secondary">📍 GPS</button>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label">Description (Optional)</label>
+                <textarea class="form-control" rows="3" placeholder="Provide any additional details..."></textarea>
+              </div>
+              
+              <div class="d-flex justify-content-between mt-4">
+                <button class="btn btn-outline" onclick="nextStep(2)">← Back</button>
+                <button class="btn btn-primary" style="background-color: var(--color-success); border: none;" onclick="submitComplaint()">Submit Complaint</button>
+              </div>
+            </div>
+            
+            <!-- Success -->
+            <div id="successState" style="display: none; text-align: center; padding: 2rem 0;">
+              <div style="font-size: 4rem; color: var(--color-success); margin-bottom: 1rem;">✓</div>
+              <h2 style="color: var(--color-success);">Problem reported successfully!</h2>
+              <p class="text-muted mb-4">Complaint ID: <strong style="color: var(--color-primary);">RF-2026-00126</strong></p>
+              <p>Your report has been submitted to the local authorities. You can track the progress from your dashboard.</p>
+              <div class="mt-4">
+                <a href="ruralfix.html" class="btn btn-primary">Track Complaint</a>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script>
+    function selectCategory(element) {
+      document.querySelectorAll('.category-card').forEach(c => c.classList.remove('active'));
+      element.classList.add('active');
+    }
+    
+    function nextStep(step) {
+      document.getElementById('step1').style.display = 'none';
+      document.getElementById('step2').style.display = 'none';
+      document.getElementById('step3').style.display = 'none';
+      
+      document.getElementById('step' + step).style.display = 'block';
+      
+      // Update indicators
+      document.getElementById('step1-indicator').className = 'step ' + (step >= 1 ? 'active' : '');
+      document.getElementById('step2-indicator').className = 'step ' + (step >= 2 ? 'active' : '');
+      document.getElementById('step3-indicator').className = 'step ' + (step >= 3 ? 'active' : '');
+    }
+    
+    function submitComplaint() {
+      document.getElementById('step3').style.display = 'none';
+      document.querySelector('.step-indicator').style.display = 'none';
+      document.getElementById('successState').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
