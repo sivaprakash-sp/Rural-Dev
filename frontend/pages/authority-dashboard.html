@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Authority Dashboard - RuralFix</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <style>
+    .table-container {
+      overflow-x: auto;
+      background: var(--color-bg-card);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+    th, td {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+    th {
+      background-color: var(--color-bg-secondary);
+      color: var(--color-primary);
+      font-weight: 600;
+    }
+    tr:last-child td { border-bottom: none; }
+    
+    .priority-high { color: var(--color-error); font-weight: 600; }
+    .priority-med { color: var(--color-warning); font-weight: 600; }
+    
+    .map-placeholder {
+      width: 100%;
+      height: 400px;
+      background: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80') center/cover;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .map-overlay {
+      position: absolute; inset: 0; background: rgba(255,255,255,0.7);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+    }
+    .map-pin {
+      width: 20px; height: 20px; background: var(--color-error); border-radius: 50%;
+      position: absolute; border: 3px solid white; box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="dashboard-layout">
+    <aside class="sidebar hide-on-mobile" id="sidebar">
+      <div class="sidebar-header">
+        <div style="font-weight: 700; color: var(--color-primary); font-size: 1.25rem;">RURALFIX</div>
+        <div style="font-size: 0.8rem; color: var(--color-secondary); font-weight: 600;">AUTHORITY PORTAL</div>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="authority-dashboard.html" class="nav-item active">📊 Dashboard</a>
+        <a href="#" class="nav-item">📋 Manage Complaints</a>
+        <a href="#" class="nav-item">👷 Field Workers</a>
+        <a href="#" class="nav-item">📈 Analytics</a>
+        <a href="profile.html" class="nav-item">👤 Profile</a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <button class="mobile-menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+        <div class="topbar-search hide-on-mobile">
+          <input type="text" placeholder="Search complaint ID or location...">
+        </div>
+        <div class="topbar-actions ml-auto">
+          <div class="text-muted hide-on-mobile">Logged in as: Block Development Officer</div>
+        </div>
+      </header>
+
+      <div class="dashboard-content">
+        
+        <div class="mb-4">
+          <h1 style="font-size: 2rem;">Overview</h1>
+          <p class="text-muted">Monitor and manage rural infrastructure issues in your block.</p>
+        </div>
+
+        <!-- KPIs -->
+        <div class="grid grid-cols-2 grid-lg-cols-5 mb-4 gap-3">
+          <div class="card card-body text-center">
+            <div class="text-muted mb-1">Total</div>
+            <div style="font-size: 1.75rem; font-weight: 700;">145</div>
+          </div>
+          <div class="card card-body text-center">
+            <div class="text-muted mb-1">Pending</div>
+            <div style="font-size: 1.75rem; font-weight: 700; color: var(--color-error);">24</div>
+          </div>
+          <div class="card card-body text-center">
+            <div class="text-muted mb-1">Assigned</div>
+            <div style="font-size: 1.75rem; font-weight: 700; color: var(--color-primary);">42</div>
+          </div>
+          <div class="card card-body text-center">
+            <div class="text-muted mb-1">In Progress</div>
+            <div style="font-size: 1.75rem; font-weight: 700; color: var(--color-warning);">31</div>
+          </div>
+          <div class="card card-body text-center" style="background-color: #E6FFFA;">
+            <div class="text-muted mb-1">Resolved</div>
+            <div style="font-size: 1.75rem; font-weight: 700; color: var(--color-success);">48</div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 grid-lg-cols-3 gap-4 mb-4">
+          
+          <div class="card" style="grid-column: span 2;">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h3 style="margin: 0;">Recent Complaints requiring Action</h3>
+              <button class="btn btn-outline" style="padding: 0.25rem 0.75rem; font-size: 0.85rem;">View All</button>
+            </div>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Category</th>
+                    <th>Location</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>RF-0125</td>
+                    <td><span class="badge badge-warning">Road</span></td>
+                    <td>North Village Main</td>
+                    <td class="priority-high">High</td>
+                    <td><span class="badge" style="background: #E2E8F0;">Pending</span></td>
+                    <td><button class="btn btn-primary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="document.getElementById('assignModal').style.display='flex'">Assign</button></td>
+                  </tr>
+                  <tr>
+                    <td>RF-0122</td>
+                    <td><span class="badge badge-primary">Water</span></td>
+                    <td>East Colony</td>
+                    <td class="priority-high">High</td>
+                    <td><span class="badge" style="background: #E2E8F0;">Pending</span></td>
+                    <td><button class="btn btn-primary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="document.getElementById('assignModal').style.display='flex'">Assign</button></td>
+                  </tr>
+                  <tr>
+                    <td>RF-0084</td>
+                    <td><span class="badge badge-primary" style="background:var(--color-bg-secondary)">Light</span></td>
+                    <td>Temple Street</td>
+                    <td class="priority-med">Medium</td>
+                    <td><span class="badge badge-success">Verify Req.</span></td>
+                    <td><button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">Verify</button></td>
+                  </tr>
+                  <tr>
+                    <td>RF-0080</td>
+                    <td><span class="badge badge-warning">Road</span></td>
+                    <td>South Market</td>
+                    <td class="priority-med">Medium</td>
+                    <td><span class="badge badge-warning">In Progress</span></td>
+                    <td><button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">View</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          
+          <div class="card">
+            <div class="card-header">
+              <h3 style="margin: 0;">Rural Issue Map</h3>
+            </div>
+            <div class="card-body" style="padding: 0;">
+              <div class="map-placeholder">
+                <div class="map-overlay">
+                  <div class="map-pin" style="top: 30%; left: 40%; background: var(--color-error);"></div>
+                  <div class="map-pin" style="top: 50%; left: 70%; background: var(--color-warning);"></div>
+                  <div class="map-pin" style="top: 70%; left: 30%; background: var(--color-primary);"></div>
+                  <div class="map-pin" style="top: 20%; left: 60%; background: var(--color-success);"></div>
+                  
+                  <div style="background: white; padding: 0.5rem; border-radius: var(--radius-sm); font-size: 0.85rem; font-weight: bold; position: absolute; bottom: 10px; box-shadow: var(--shadow-sm);">
+                    🔴 Pending 🟡 Progress 🟢 Resolved
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Assign Worker Modal -->
+  <div id="assignModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+    <div class="card" style="width: 100%; max-width: 400px;">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h3 style="margin: 0;">Assign Field Worker</h3>
+        <button style="background: none; border: none; font-size: 1.5rem; cursor: pointer;" onclick="document.getElementById('assignModal').style.display='none'">×</button>
+      </div>
+      <div class="card-body">
+        <form onsubmit="event.preventDefault(); document.getElementById('assignModal').style.display='none'; alert('Worker assigned successfully!');">
+          
+          <div class="mb-3 p-3" style="background: var(--color-bg-secondary); border-radius: var(--radius-md);">
+            <div style="font-weight: bold;">Complaint: RF-0125</div>
+            <div class="text-muted" style="font-size: 0.85rem;">Potholes on North Village Main</div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Select Worker</label>
+            <select class="form-control" required>
+              <option>Ramesh Kumar (Road Dept) - 2 active tasks</option>
+              <option>Murugan T. (Road Dept) - 0 active tasks</option>
+              <option>Suresh V. (General) - 1 active task</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Priority</label>
+            <select class="form-control">
+              <option>High (Resolve within 48 hrs)</option>
+              <option>Medium (Resolve within 7 days)</option>
+              <option>Low (Routine maintenance)</option>
+            </select>
+          </div>
+          
+          <div class="d-flex gap-2 mt-4">
+            <button type="submit" class="btn btn-primary btn-block">Confirm Assignment</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
