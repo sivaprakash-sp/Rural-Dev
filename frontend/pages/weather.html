@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather Alerts - RuralFix & Agro MedKnow Nexus</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <style>
+    .weather-hero {
+      background: linear-gradient(135deg, #1A4D2E 0%, #2D6A4F 100%);
+      color: white;
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+    }
+    .weather-hero-bg {
+      position: absolute;
+      right: -20px;
+      bottom: -30px;
+      font-size: 10rem;
+      opacity: 0.15;
+      user-select: none;
+      pointer-events: none;
+    }
+    .metric-box {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(8px);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .forecast-card {
+      background: var(--color-bg-card);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+      padding: 1.25rem;
+      text-align: center;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    }
+    .forecast-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--color-primary);
+    }
+    .alert-card-warning {
+      border-left: 5px solid var(--color-warning);
+      background-color: #FFFDF0;
+    }
+    .alert-card-danger {
+      border-left: 5px solid var(--color-error);
+      background-color: #FFF5F5;
+    }
+    .alert-card-info {
+      border-left: 5px solid #3182CE;
+      background-color: #EBF8FF;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="dashboard-layout">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div style="font-weight: 700; color: var(--color-primary); font-size: 1.25rem;">RURALFIX</div>
+        <div style="font-size: 0.8rem; color: var(--color-secondary); font-weight: 600;">AGRO MEDKNOW NEXUS</div>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="farmer-dashboard.html" class="nav-item">📊 Dashboard</a>
+        <a href="my-crops.html" class="nav-item">🌾 My Crops</a>
+        <a href="ai-recommendation.html" class="nav-item">🧠 AI Recommendation</a>
+        <a href="disease-detection.html" class="nav-item">🔍 Disease Detection</a>
+        <a href="market.html" class="nav-item">📈 Market Prices</a>
+        <a href="buyers.html" class="nav-item">🤝 Buyers Marketplace</a>
+        <a href="weather.html" class="nav-item active">⛅ Weather Alerts</a>
+        <a href="financial.html" class="nav-item">💰 Financial Assistance</a>
+        <a href="notifications.html" class="nav-item">🔔 Notifications</a>
+        <a href="profile.html" class="nav-item">👤 Profile</a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      
+      <!-- Topbar -->
+      <header class="topbar">
+        <div class="d-flex align-items-center gap-2">
+          <button class="mobile-menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+          <div class="topbar-search hide-on-mobile">
+            <input type="text" id="weatherSearch" placeholder="Search location (e.g. Pollachi, Erode)..." onkeypress="if(event.key==='Enter') changeLocation(this.value)">
+          </div>
+        </div>
+        
+        <div class="topbar-actions">
+          <div class="hide-on-mobile text-muted" id="currentLocationTag">📍 Pollachi, Coimbatore</div>
+          <a href="notifications.html" style="font-size: 1.25rem; position: relative;" title="Notifications">
+            🔔
+            <span style="position: absolute; top: -5px; right: -5px; background: var(--color-error); width: 10px; height: 10px; border-radius: 50%;"></span>
+          </a>
+          <a href="profile.html" style="width: 35px; height: 35px; background: var(--color-primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;" title="Profile">R</a>
+        </div>
+      </header>
+
+      <!-- Dashboard Content -->
+      <div class="dashboard-content">
+        
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+          <div>
+            <h1 style="font-size: 2rem; margin: 0;">Weather & Agrometeorological Alerts</h1>
+            <p class="text-muted" style="margin: 0;">Live forecasts, crop advisories, and extreme weather warnings for your district.</p>
+          </div>
+          <div class="d-flex gap-2">
+            <select class="form-control" id="districtSelect" onchange="changeLocation(this.value)" style="width: auto;">
+              <option value="Pollachi, Coimbatore">📍 Pollachi, Coimbatore</option>
+              <option value="Coimbatore City">📍 Coimbatore City</option>
+              <option value="Erode District">📍 Erode District</option>
+              <option value="Salem District">📍 Salem District</option>
+              <option value="Thanjavur Delta">📍 Thanjavur Delta</option>
+            </select>
+            <button class="btn btn-primary" onclick="triggerAlertModal()">⚡ Subscribe SMS Alerts</button>
+          </div>
+        </div>
+
+        <!-- Weather Hero Section -->
+        <div class="weather-hero mb-4">
+          <div class="weather-hero-bg">🌧️</div>
+          <div class="grid grid-cols-1 grid-lg-cols-3 gap-3 align-items-center">
+            
+            <div>
+              <span class="badge badge-warning" style="margin-bottom: 0.5rem; background: #FFC300; color: #1A4D2E; border: none;">Live Conditions</span>
+              <h2 style="font-size: 3.5rem; color: white; font-weight: 700; margin: 0; line-height: 1;">28°C</h2>
+              <div style="font-size: 1.25rem; opacity: 0.9; margin-top: 0.5rem;">Heavy Rain Expected Today</div>
+              <div style="font-size: 0.9rem; opacity: 0.8; margin-top: 0.25rem;" id="locationTitle">Pollachi, Tamil Nadu • Updated 10 mins ago</div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2" style="grid-column: span 2;">
+              <div class="metric-box">
+                <div style="font-size: 0.85rem; opacity: 0.9;">Rain Probability</div>
+                <div style="font-size: 1.5rem; font-weight: 700; color: var(--color-accent);">75%</div>
+                <div style="font-size: 0.75rem; opacity: 0.8;">~18mm expected</div>
+              </div>
+              <div class="metric-box">
+                <div style="font-size: 0.85rem; opacity: 0.9;">Humidity</div>
+                <div style="font-size: 1.5rem; font-weight: 700; color: white;">82%</div>
+                <div style="font-size: 0.75rem; opacity: 0.8;">High fungal risk</div>
+              </div>
+              <div class="metric-box">
+                <div style="font-size: 0.85rem; opacity: 0.9;">Wind Speed</div>
+                <div style="font-size: 1.5rem; font-weight: 700; color: white;">16 km/h</div>
+                <div style="font-size: 0.75rem; opacity: 0.8;">SW Gusts</div>
+              </div>
+              <div class="metric-box">
+                <div style="font-size: 0.85rem; opacity: 0.9;">Air Quality (AQI)</div>
+                <div style="font-size: 1.5rem; font-weight: 700; color: #68D391;">38 (Good)</div>
+                <div style="font-size: 0.75rem; opacity: 0.8;">Optimal for crops</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Severe Weather Warnings List -->
+        <div class="card mb-4">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h3 style="margin: 0; font-size: 1.25rem;">🚨 Active Agricultural Advisories & Warnings</h3>
+            <span class="badge badge-error">3 Warnings Active</span>
+          </div>
+          <div class="card-body d-flex flex-column gap-3">
+            
+            <div class="alert alert-card-danger p-3 rounded d-flex justify-content-between align-items-start gap-3">
+              <div>
+                <div class="d-flex align-items-center gap-2 mb-1">
+                  <span class="badge badge-error">High Priority</span>
+                  <strong style="color: var(--color-error); font-size: 1.05rem;">Heavy Rain & Waterlogging Risk</strong>
+                </div>
+                <p style="margin: 0; font-size: 0.9rem; color: var(--color-text-main);">
+                  Continuous heavy rainfall (40-60mm) expected over the next 36 hours in Coimbatore and surrounding belts. 
+                  <strong>Action Required:</strong> Clear field drainage channels immediately for Tomato and Paddy crops to prevent root rot.
+                </p>
+              </div>
+              <button class="btn btn-outline" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; border-color: var(--color-error); color: var(--color-error);" onclick="alert('Advisory saved to your dashboard notes!')">Save Advisory</button>
+            </div>
+
+            <div class="alert alert-card-warning p-3 rounded d-flex justify-content-between align-items-start gap-3">
+              <div>
+                <div class="d-flex align-items-center gap-2 mb-1">
+                  <span class="badge badge-warning">Moderate Risk</span>
+                  <strong style="color: #975A16; font-size: 1.05rem;">Pest & Fungal Growth Advisory (High Humidity)</strong>
+                </div>
+                <p style="margin: 0; font-size: 0.9rem; color: var(--color-text-main);">
+                  Relative humidity exceeding 80% creates high risk for Late Blight in Solanaceous crops (Tomato/Chilli).
+                  <strong>Action Required:</strong> Postpone chemical spraying until rain stops. Inspect under leaves for yellow spots.
+                </p>
+              </div>
+              <button class="btn btn-outline" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; border-color: #975A16; color: #975A16;" onclick="alert('Advisory saved to your dashboard notes!')">Save Advisory</button>
+            </div>
+
+            <div class="alert alert-card-info p-3 rounded d-flex justify-content-between align-items-start gap-3">
+              <div>
+                <div class="d-flex align-items-center gap-2 mb-1">
+                  <span class="badge badge-primary">Farming Tip</span>
+                  <strong style="color: #2B6CB0; font-size: 1.05rem;">Ideal Window for Fertilizer Application</strong>
+                </div>
+                <p style="margin: 0; font-size: 0.9rem; color: var(--color-text-main);">
+                  Clear weather expected on Wednesday & Thursday. Apply basal dose fertilizers during early morning hours on Wednesday.
+                </p>
+              </div>
+              <button class="btn btn-outline" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; border-color: #2B6CB0; color: #2B6CB0;" onclick="alert('Advisory saved to your dashboard notes!')">Save Advisory</button>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 7-Day Forecast Grid -->
+        <h3 class="mb-3">📅 7-Day Agricultural Weather Forecast</h3>
+        <div class="grid grid-cols-2 grid-lg-cols-7 gap-2 mb-4">
+          
+          <div class="forecast-card" style="border-color: var(--color-primary); background-color: var(--color-bg-secondary);">
+            <div style="font-weight: 700; color: var(--color-primary);">Today</div>
+            <div style="font-size: 2rem; margin: 0.5rem 0;">🌧️</div>
+            <div style="font-weight: 700; font-size: 1.1rem;">28°C</div>
+            <div class="text-muted" style="font-size: 0.8rem;">21°C</div>
+            <div class="mt-2" style="font-size: 0.75rem; color: var(--color-error); font-weight: 600;">Rain 75%</div>
+            <div style="font-size: 0.7rem; color: var(--color-text-muted); margin-top: 0.25rem;">Drain field</div>
+          </div>
+
+          <div class="forecast-card">
+            <div style="font-weight: 600;">Tue</div>
+            <div style="font-size: 2rem; margin: 0.5rem 0;">⛈️</div>
+            <div style="font-weight: 700; font-size: 1.1rem;">27°C</div>
+            <div class="text-muted" style="font-size: 0.8rem;">20°C</div>
+            <div class="mt-2" style="font-size: 0.75rem; color: var(--color-error); font-weight: 600;">Rain 85%</div>
+            <div style="font-size: 0.7rem; color: var(--color-text-muted); margin-top: 0.25rem;">No spray</div>
+          </div>
+
+          <div class="forecast-card">
+            <div style="font-weight: 600;">Wed</div>
+            <div style="font-size: 2rem; margin: 0.5rem 0;">⛅</div>
+            <div style="font-weight: 700; font-size: 1.1rem;">30°C</div>
+            <div class="text-muted" style="font-size: 0.8rem;">22°C</div>
+            <div class="mt-2" style="font-size: 0.75rem; color: var(--color-success); font-weight: 600;">Rain 20%</div>
+            <div style="font-size: 0.7rem; color: var(--color-text-muted); margin-top: 0.25rem;">Good for spray</div>
+          </div>
+
+          <div class="forecast-card">
+            <div style="font-weight: 600;">Thu</div>
+            <div style="font-size: 2rem; margin: 0.5rem 0;">☀️</div>
+            <div style="font-weight: 700; font-size: 1.1rem;">32°C</div>
+            <div class="text-muted" style="font-size: 0.8rem;">23°C</div>
+            <div class="mt-2" style="font-size: 0.75rem; color: var(--color-success); font-weight: 600;">Rain 10%</div>
+            <div style="font-size: 0.7rem; color: var(--color-text-muted); margin-top: 0.25rem;">Harvest day</div>
+          </div>
+
+          <div class="forecast-card">
+            <div style="font-weight: 600;">Fri</div>
+            <div style="font-size: 2rem; margin: 0.5rem 0;">🌤️</div>
+            <div style="font-weight: 700; font-size: 1.1rem;">31°C</div>
+            <div class="text-muted" style="font-size: 0.8rem;">22°C</div>
+            <div class="mt-2" style="font-size: 0.75rem; color: var(--color-success); font-weight: 600;">Rain 15%</div>
+            <div style="font-size: 0.7rem; color: var(--color-text-muted); margin-top: 0.25rem;">Irrigation OK</div>
+          </div>
+
+          <div class="forecast-card">
+            <div style="font-weight: 600;">Sat</div>
+            <div style="font-size: 2rem; margin: 0.5rem 0;">🌦️</div>
+            <div style="font-weight: 700; font-size: 1.1rem;">29°C</div>
+            <div class="text-muted" style="font-size: 0.8rem;">21°C</div>
+            <div class="mt-2" style="font-size: 0.75rem; color: #975A16; font-weight: 600;">Rain 40%</div>
+            <div style="font-size: 0.7rem; color: var(--color-text-muted); margin-top: 0.25rem;">Light showers</div>
+          </div>
+
+          <div class="forecast-card">
+            <div style="font-weight: 600;">Sun</div>
+            <div style="font-size: 2rem; margin: 0.5rem 0;">⛅</div>
+            <div style="font-weight: 700; font-size: 1.1rem;">30°C</div>
+            <div class="text-muted" style="font-size: 0.8rem;">22°C</div>
+            <div class="mt-2" style="font-size: 0.75rem; color: var(--color-success); font-weight: 600;">Rain 25%</div>
+            <div style="font-size: 0.7rem; color: var(--color-text-muted); margin-top: 0.25rem;">Normal field work</div>
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Subscription Modal -->
+  <div id="subscribeModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+    <div class="card" style="width: 100%; max-width: 480px; padding: 1.5rem;">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 style="margin: 0; font-size: 1.25rem;">📲 Weather Alerts via SMS / WhatsApp</h3>
+        <button style="background: none; border: none; font-size: 1.5rem; cursor: pointer;" onclick="document.getElementById('subscribeModal').style.display='none'">×</button>
+      </div>
+      <p class="text-muted" style="font-size: 0.9rem;">Receive immediate severe weather warnings directly on your mobile phone in Tamil or English.</p>
+      <form onsubmit="event.preventDefault(); document.getElementById('subscribeModal').style.display='none'; alert('Subscribed! You will now receive automated SMS alerts for weather updates.');">
+        <div class="form-group">
+          <label class="form-label">Mobile Number</label>
+          <input type="tel" class="form-control" value="+91 98765 43210" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Preferred Channel</label>
+          <select class="form-control">
+            <option>SMS + WhatsApp</option>
+            <option>SMS Only</option>
+            <option>WhatsApp Only</option>
+            <option>Voice Call for Extreme Emergency</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Preferred Language</label>
+          <select class="form-control">
+            <option>Tamil (தமிழ்)</option>
+            <option>English</option>
+            <option>Malayalam</option>
+          </select>
+        </div>
+        <div class="d-flex gap-2 mt-4">
+          <button type="button" class="btn btn-outline" style="flex: 1;" onclick="document.getElementById('subscribeModal').style.display='none'">Cancel</button>
+          <button type="submit" class="btn btn-primary" style="flex: 1;">Activate Alerts</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function changeLocation(val) {
+      if(!val) return;
+      document.getElementById('currentLocationTag').innerText = '📍 ' + val;
+      document.getElementById('locationTitle').innerText = val + ' • Updated just now';
+      alert('Updated weather broadcast for: ' + val);
+    }
+    function triggerAlertModal() {
+      document.getElementById('subscribeModal').style.display = 'flex';
+    }
+  </script>
+</body>
+</html>

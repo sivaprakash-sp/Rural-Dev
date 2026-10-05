@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notifications - RuralFix & Agro MedKnow Nexus</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <style>
+    .notification-item {
+      background: var(--color-bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      transition: all var(--transition-fast);
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      position: relative;
+    }
+    .notification-item.unread {
+      border-left: 4px solid var(--color-primary);
+      background-color: #F4FAF6;
+    }
+    .notification-item:hover {
+      box-shadow: var(--shadow-sm);
+    }
+    .icon-badge {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+    .bg-weather { background-color: #EBF8FF; color: #3182CE; }
+    .bg-market { background-color: #FEFCBF; color: #B7791F; }
+    .bg-finance { background-color: #E6FFFA; color: var(--color-success); }
+    .bg-health { background-color: #FED7D7; color: var(--color-error); }
+    
+    .tab-pill {
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-full);
+      background: var(--color-bg-card);
+      border: 1px solid var(--border-color);
+      font-weight: 500;
+      font-size: 0.85rem;
+      cursor: pointer;
+      color: var(--color-text-main);
+    }
+    .tab-pill.active {
+      background: var(--color-primary);
+      color: white;
+      border-color: var(--color-primary);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="dashboard-layout">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div style="font-weight: 700; color: var(--color-primary); font-size: 1.25rem;">RURALFIX</div>
+        <div style="font-size: 0.8rem; color: var(--color-secondary); font-weight: 600;">AGRO MEDKNOW NEXUS</div>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="farmer-dashboard.html" class="nav-item">📊 Dashboard</a>
+        <a href="my-crops.html" class="nav-item">🌾 My Crops</a>
+        <a href="ai-recommendation.html" class="nav-item">🧠 AI Recommendation</a>
+        <a href="disease-detection.html" class="nav-item">🔍 Disease Detection</a>
+        <a href="market.html" class="nav-item">📈 Market Prices</a>
+        <a href="buyers.html" class="nav-item">🤝 Buyers Marketplace</a>
+        <a href="weather.html" class="nav-item">⛅ Weather Alerts</a>
+        <a href="financial.html" class="nav-item">💰 Financial Assistance</a>
+        <a href="notifications.html" class="nav-item active">🔔 Notifications</a>
+        <a href="profile.html" class="nav-item">👤 Profile</a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      
+      <!-- Topbar -->
+      <header class="topbar">
+        <div class="d-flex align-items-center gap-2">
+          <button class="mobile-menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+          <div class="topbar-search hide-on-mobile">
+            <input type="text" placeholder="Search notifications...">
+          </div>
+        </div>
+        
+        <div class="topbar-actions">
+          <div class="hide-on-mobile text-muted">📍 Pollachi, Coimbatore</div>
+          <a href="notifications.html" style="font-size: 1.25rem; position: relative;" title="Notifications">
+            🔔
+            <span style="position: absolute; top: -5px; right: -5px; background: var(--color-error); width: 10px; height: 10px; border-radius: 50%;"></span>
+          </a>
+          <a href="profile.html" style="width: 35px; height: 35px; background: var(--color-primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;" title="Profile">R</a>
+        </div>
+      </header>
+
+      <!-- Dashboard Content -->
+      <div class="dashboard-content" style="max-width: 960px;">
+        
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+          <div>
+            <div class="d-flex align-items-center gap-2">
+              <h1 style="font-size: 2rem; margin: 0;">Notifications Hub</h1>
+              <span class="badge badge-error" id="unreadBadge">3 Unread</span>
+            </div>
+            <p class="text-muted" style="margin: 0;">Stay updated on weather advisories, mandi prices, scheme updates, and crop health alerts.</p>
+          </div>
+          
+          <div class="d-flex gap-2">
+            <button class="btn btn-outline" style="padding: 0.5rem 1rem; font-size: 0.85rem;" onclick="markAllAsRead()">✓ Mark All Read</button>
+            <button class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.85rem;" onclick="openPrefModal()">⚙️ Settings</button>
+          </div>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="d-flex gap-2 mb-4 overflow-x-auto pb-1">
+          <button class="tab-pill active" onclick="filterNotifs('all', this)">All (5)</button>
+          <button class="tab-pill" onclick="filterNotifs('weather', this)">⛅ Weather (2)</button>
+          <button class="tab-pill" onclick="filterNotifs('market', this)">📈 Market (1)</button>
+          <button class="tab-pill" onclick="filterNotifs('finance', this)">💰 Finance (1)</button>
+          <button class="tab-pill" onclick="filterNotifs('health', this)">🦠 Health (1)</button>
+        </div>
+
+        <!-- Notifications Container -->
+        <div class="d-flex flex-column gap-3 mb-4" id="notifList">
+          
+          <!-- Notif 1 -->
+          <div class="notification-item unread" data-category="weather">
+            <div class="icon-badge bg-weather">⛈️</div>
+            <div style="flex: 1;">
+              <div class="d-flex justify-content-between align-items-start gap-2 mb-1">
+                <h4 style="margin: 0; font-size: 1.05rem; color: var(--color-text-main);">Severe Rainfall Alert: Pollachi Region</h4>
+                <span class="text-muted" style="font-size: 0.8rem;">15 mins ago</span>
+              </div>
+              <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 0.75rem;">
+                Heavy rain (40-60mm) expected over the next 24 hours. Clear drainage channels for Tomato & Paddy fields immediately.
+              </p>
+              <div class="d-flex gap-2">
+                <a href="weather.html" class="btn btn-primary" style="padding: 0.35rem 0.75rem; font-size: 0.8rem;">View Weather Map</a>
+                <button class="btn btn-outline" style="padding: 0.35rem 0.75rem; font-size: 0.8rem;" onclick="toggleRead(this)">Mark as Read</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Notif 2 -->
+          <div class="notification-item unread" data-category="market">
+            <div class="icon-badge bg-market">📈</div>
+            <div style="flex: 1;">
+              <div class="d-flex justify-content-between align-items-start gap-2 mb-1">
+                <h4 style="margin: 0; font-size: 1.05rem; color: var(--color-text-main);">Tomato Price Jump (+8%) in Coimbatore Mandi</h4>
+                <span class="text-muted" style="font-size: 0.8rem;">2 hours ago</span>
+              </div>
+              <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 0.75rem;">
+                Tomato prices reached ₹32/kg due to high festival demand. Green Harvest Exports is actively seeking bulk sellers.
+              </p>
+              <div class="d-flex gap-2">
+                <a href="buyers.html" class="btn btn-primary" style="padding: 0.35rem 0.75rem; font-size: 0.8rem;">Connect with Buyers</a>
+                <button class="btn btn-outline" style="padding: 0.35rem 0.75rem; font-size: 0.8rem;" onclick="toggleRead(this)">Mark as Read</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Notif 3 -->
+          <div class="notification-item unread" data-category="health">
+            <div class="icon-badge bg-health">🔍</div>
+            <div style="flex: 1;">
+              <div class="d-flex justify-content-between align-items-start gap-2 mb-1">
+                <h4 style="margin: 0; font-size: 1.05rem; color: var(--color-text-main);">Disease Warning: Late Blight Detected Nearby</h4>
+                <span class="text-muted" style="font-size: 0.8rem;">Yesterday</span>
+              </div>
+              <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 0.75rem;">
+                2 nearby farms in Pollachi reported Late Blight in Tomato crops. Upload a foliage photo now to test your crop.
+              </p>
+              <div class="d-flex gap-2">
+                <a href="disease-detection.html" class="btn btn-primary" style="padding: 0.35rem 0.75rem; font-size: 0.8rem;">Scan Crop Health</a>
+                <button class="btn btn-outline" style="padding: 0.35rem 0.75rem; font-size: 0.8rem;" onclick="toggleRead(this)">Mark as Read</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Notif 4 -->
+          <div class="notification-item" data-category="finance">
+            <div class="icon-badge bg-finance">💰</div>
+            <div style="flex: 1;">
+              <div class="d-flex justify-content-between align-items-start gap-2 mb-1">
+                <h4 style="margin: 0; font-size: 1.05rem; color: var(--color-text-main);">PM-KISAN Installment Credited (₹2,000)</h4>
+                <span class="text-muted" style="font-size: 0.8rem;">3 days ago</span>
+              </div>
+              <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 0.75rem;">
+                Your 16th installment of ₹2,000 under PM-KISAN has been direct transferred to your SBI Account (xxxx4892).
+              </p>
+              <div class="d-flex gap-2">
+                <a href="financial.html" class="btn btn-outline" style="padding: 0.35rem 0.75rem; font-size: 0.8rem;">View Financial Statement</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Notif 5 -->
+          <div class="notification-item" data-category="weather">
+            <div class="icon-badge bg-weather">🌤️</div>
+            <div style="flex: 1;">
+              <div class="d-flex justify-content-between align-items-start gap-2 mb-1">
+                <h4 style="margin: 0; font-size: 1.05rem; color: var(--color-text-main);">Weekly Agrometeorological Advisory Summary</h4>
+                <span class="text-muted" style="font-size: 0.8rem;">5 days ago</span>
+              </div>
+              <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 0.75rem;">
+                Favorable temperatures for planting groundnut and pulse crops starting early next week.
+              </p>
+              <div class="d-flex gap-2">
+                <a href="weather.html" class="btn btn-outline" style="padding: 0.35rem 0.75rem; font-size: 0.8rem;">Read Full Report</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Settings Modal -->
+  <div id="prefModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+    <div class="card" style="width: 100%; max-width: 480px; padding: 1.5rem;">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 style="margin: 0; font-size: 1.25rem;">Notification Preferences</h3>
+        <button style="background: none; border: none; font-size: 1.5rem; cursor: pointer;" onclick="document.getElementById('prefModal').style.display='none'">×</button>
+      </div>
+      <div class="d-flex flex-column gap-3">
+        <label class="d-flex align-items-center justify-content-between p-2 rounded" style="background: var(--color-bg-main); cursor: pointer;">
+          <div>
+            <div style="font-weight: 600;">Severe Weather Warnings (SMS)</div>
+            <div class="text-muted" style="font-size: 0.8rem;">Instant SMS for heavy rain/cyclone</div>
+          </div>
+          <input type="checkbox" checked style="width: 18px; height: 18px; accent-color: var(--color-primary);">
+        </label>
+
+        <label class="d-flex align-items-center justify-content-between p-2 rounded" style="background: var(--color-bg-main); cursor: pointer;">
+          <div>
+            <div style="font-weight: 600;">Daily Mandi Price Digest (WhatsApp)</div>
+            <div class="text-muted" style="font-size: 0.8rem;">Receive daily tomato/rice market rates</div>
+          </div>
+          <input type="checkbox" checked style="width: 18px; height: 18px; accent-color: var(--color-primary);">
+        </label>
+
+        <label class="d-flex align-items-center justify-content-between p-2 rounded" style="background: var(--color-bg-main); cursor: pointer;">
+          <div>
+            <div style="font-weight: 600;">Govt Scheme Deadlines</div>
+            <div class="text-muted" style="font-size: 0.8rem;">Reminders for PMFBY & subsidy applications</div>
+          </div>
+          <input type="checkbox" checked style="width: 18px; height: 18px; accent-color: var(--color-primary);">
+        </label>
+      </div>
+      
+      <div class="d-flex gap-2 mt-4">
+        <button class="btn btn-primary btn-block" onclick="document.getElementById('prefModal').style.display='none'; alert('Preferences saved successfully!');">Save Preferences</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function filterNotifs(cat, btn) {
+      document.querySelectorAll('.tab-pill').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+
+      document.querySelectorAll('.notification-item').forEach(item => {
+        if (cat === 'all' || item.getAttribute('data-category') === cat) {
+          item.style.display = 'flex';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+
+    function toggleRead(btn) {
+      const item = btn.closest('.notification-item');
+      item.classList.remove('unread');
+      btn.innerText = 'Read';
+      btn.disabled = true;
+      updateUnreadBadge();
+    }
+
+    function markAllAsRead() {
+      document.querySelectorAll('.notification-item.unread').forEach(item => {
+        item.classList.remove('unread');
+      });
+      document.querySelectorAll('.notification-item button').forEach(b => {
+        if(b.innerText === 'Mark as Read') {
+          b.innerText = 'Read';
+          b.disabled = true;
+        }
+      });
+      updateUnreadBadge();
+      alert('All notifications marked as read.');
+    }
+
+    function updateUnreadBadge() {
+      const count = document.querySelectorAll('.notification-item.unread').length;
+      const badge = document.getElementById('unreadBadge');
+      if (count > 0) {
+        badge.innerText = count + ' Unread';
+        badge.style.display = 'inline-block';
+      } else {
+        badge.innerText = 'All Read';
+        badge.classList.remove('badge-error');
+        badge.classList.add('badge-success');
+      }
+    }
+
+    function openPrefModal() {
+      document.getElementById('prefModal').style.display = 'flex';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile - RuralFix & Agro MedKnow Nexus</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <style>
+    .profile-banner {
+      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem 2rem;
+      color: white;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+    .profile-avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: var(--color-accent);
+      color: var(--color-primary);
+      font-size: 2.5rem;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 4px solid white;
+      box-shadow: var(--shadow-md);
+    }
+    .nav-tabs {
+      display: flex;
+      gap: 0.5rem;
+      border-bottom: 2px solid var(--border-color);
+      margin-bottom: 2rem;
+    }
+    .tab-item {
+      padding: 0.75rem 1.25rem;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+      transition: all var(--transition-fast);
+    }
+    .tab-item.active {
+      color: var(--color-primary);
+      border-bottom-color: var(--color-primary);
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="dashboard-layout">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div style="font-weight: 700; color: var(--color-primary); font-size: 1.25rem;">RURALFIX</div>
+        <div style="font-size: 0.8rem; color: var(--color-secondary); font-weight: 600;">AGRO MEDKNOW NEXUS</div>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="farmer-dashboard.html" class="nav-item">📊 Dashboard</a>
+        <a href="my-crops.html" class="nav-item">🌾 My Crops</a>
+        <a href="ai-recommendation.html" class="nav-item">🧠 AI Recommendation</a>
+        <a href="disease-detection.html" class="nav-item">🔍 Disease Detection</a>
+        <a href="market.html" class="nav-item">📈 Market Prices</a>
+        <a href="buyers.html" class="nav-item">🤝 Buyers Marketplace</a>
+        <a href="weather.html" class="nav-item">⛅ Weather Alerts</a>
+        <a href="financial.html" class="nav-item">💰 Financial Assistance</a>
+        <a href="notifications.html" class="nav-item">🔔 Notifications</a>
+        <a href="profile.html" class="nav-item active">👤 Profile</a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      
+      <!-- Topbar -->
+      <header class="topbar">
+        <div class="d-flex align-items-center gap-2">
+          <button class="mobile-menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+          <div class="topbar-search hide-on-mobile">
+            <input type="text" placeholder="Search profile settings...">
+          </div>
+        </div>
+        
+        <div class="topbar-actions">
+          <div class="hide-on-mobile text-muted">📍 Pollachi, Coimbatore</div>
+          <a href="notifications.html" style="font-size: 1.25rem; position: relative;" title="Notifications">
+            🔔
+            <span style="position: absolute; top: -5px; right: -5px; background: var(--color-error); width: 10px; height: 10px; border-radius: 50%;"></span>
+          </a>
+          <a href="profile.html" style="width: 35px; height: 35px; background: var(--color-primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;" title="Profile">R</a>
+        </div>
+      </header>
+
+      <!-- Dashboard Content -->
+      <div class="dashboard-content" style="max-width: 960px;">
+        
+        <!-- Profile Banner -->
+        <div class="profile-banner d-flex align-items-center justify-content-between flex-wrap gap-3">
+          <div class="d-flex align-items-center gap-3">
+            <div class="profile-avatar">R</div>
+            <div>
+              <div class="d-flex align-items-center gap-2 mb-1">
+                <h1 style="color: white; font-size: 1.75rem; margin: 0;">Ramesh Kumar</h1>
+                <span class="badge badge-success" style="background: var(--color-accent); color: var(--color-primary); border: none;">✓ Verified Farmer</span>
+              </div>
+              <p style="margin: 0; opacity: 0.9; font-size: 0.95rem;">
+                📍 Pollachi, Coimbatore District, Tamil Nadu • Member since Jan 2023
+              </p>
+              <div style="font-size: 0.85rem; opacity: 0.8; margin-top: 0.25rem;">
+                Farmer ID: <strong>#RF-TN-9842</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex gap-2">
+            <button class="btn btn-accent" style="padding: 0.5rem 1.25rem; font-size: 0.9rem;" onclick="alert('Avatar update dialog triggered!')">📷 Change Photo</button>
+            <a href="login.html" class="btn btn-outline" style="border-color: white; color: white; padding: 0.5rem 1.25rem; font-size: 0.9rem;">Sign Out</a>
+          </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="nav-tabs">
+          <div class="tab-item active" onclick="switchTab('personal', this)">👤 Personal Information</div>
+          <div class="tab-item" onclick="switchTab('farm', this)">🌾 Farm & Crop Details</div>
+          <div class="tab-item" onclick="switchTab('bank', this)">🏦 Bank & KYC Verification</div>
+          <div class="tab-item" onclick="switchTab('security', this)">🔒 Security & Settings</div>
+        </div>
+
+        <!-- Tab 1: Personal Details -->
+        <div class="tab-content active" id="tab-personal">
+          <div class="card">
+            <div class="card-header">
+              <h3 style="margin: 0; font-size: 1.25rem;">Personal Details</h3>
+            </div>
+            <div class="card-body">
+              <form onsubmit="saveProfile(event)">
+                <div class="grid grid-cols-1 grid-lg-cols-2 gap-3">
+                  <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" class="form-control" value="Ramesh Kumar" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Phone Number</label>
+                    <input type="tel" class="form-control" value="+91 98765 43210" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-control" value="ramesh.kumar@agrilink.in">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Preferred Communication Language</label>
+                    <select class="form-control">
+                      <option selected>Tamil (தமிழ்)</option>
+                      <option>English</option>
+                      <option>Hindi</option>
+                    </select>
+                  </div>
+                  <div class="form-group" style="grid-column: span 2;">
+                    <label class="form-label">Residential Address</label>
+                    <input type="text" class="form-control" value="Door No. 42, Main Road, Vadakkipalayam, Pollachi Taluk, Coimbatore - 642110">
+                  </div>
+                </div>
+
+                <div class="mt-3 text-right">
+                  <button type="submit" class="btn btn-primary">Save Personal Info</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 2: Farm Details -->
+        <div class="tab-content" id="tab-farm">
+          <div class="card">
+            <div class="card-header">
+              <h3 style="margin: 0; font-size: 1.25rem;">Farm Land & Agronomic Details</h3>
+            </div>
+            <div class="card-body">
+              <form onsubmit="saveProfile(event)">
+                <div class="grid grid-cols-1 grid-lg-cols-2 gap-3">
+                  <div class="form-group">
+                    <label class="form-label">Total Land Size (Acres)</label>
+                    <input type="text" class="form-control" value="4.5 Acres" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Land Survey Number(s)</label>
+                    <input type="text" class="form-control" value="142/2B & 143/1A" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Primary Soil Type</label>
+                    <select class="form-control">
+                      <option selected>Red Loam Soil</option>
+                      <option>Black Cotton Soil</option>
+                      <option>Alluvial Soil</option>
+                      <option>Clay Soil</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Primary Water Source</label>
+                    <select class="form-control">
+                      <option selected>Borewell + Drip Irrigation</option>
+                      <option>Open Well</option>
+                      <option>Canal Irrigation</option>
+                      <option>Rainfed Only</option>
+                    </select>
+                  </div>
+                  <div class="form-group" style="grid-column: span 2;">
+                    <label class="form-label">Crops Currently Cultivated</label>
+                    <input type="text" class="form-control" value="Tomato (PKM-1), Paddy (Rice), Sugarcane">
+                  </div>
+                </div>
+
+                <div class="mt-3 text-right">
+                  <button type="submit" class="btn btn-primary">Update Farm Info</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 3: Bank & KYC -->
+        <div class="tab-content" id="tab-bank">
+          <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h3 style="margin: 0; font-size: 1.25rem;">Direct Subsidy Bank & KYC Details</h3>
+              <span class="badge badge-success">Aadhaar KYC Verified</span>
+            </div>
+            <div class="card-body">
+              <form onsubmit="saveProfile(event)">
+                <div class="grid grid-cols-1 grid-lg-cols-2 gap-3">
+                  <div class="form-group">
+                    <label class="form-label">Aadhaar Number</label>
+                    <input type="text" class="form-control" value="XXXX-XXXX-9842" disabled style="background: var(--color-bg-main);">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">PM-KISAN Farmer Registration ID</label>
+                    <input type="text" class="form-control" value="TN-POLLACHI-884920" disabled style="background: var(--color-bg-main);">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Bank Name</label>
+                    <input type="text" class="form-control" value="State Bank of India (SBI)">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Branch Name & IFSC Code</label>
+                    <input type="text" class="form-control" value="Pollachi Main Branch • SBIN0000895">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Bank Account Number (DBT Enabled)</label>
+                    <input type="text" class="form-control" value="38492014892">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Kisan Credit Card (KCC) Number</label>
+                    <input type="text" class="form-control" value="KCC-SBI-9920148">
+                  </div>
+                </div>
+
+                <div class="mt-3 text-right">
+                  <button type="submit" class="btn btn-primary">Save Bank Details</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 4: Security & Preferences -->
+        <div class="tab-content" id="tab-security">
+          <div class="card mb-4">
+            <div class="card-header">
+              <h3 style="margin: 0; font-size: 1.25rem;">Password & Security</h3>
+            </div>
+            <div class="card-body">
+              <form onsubmit="event.preventDefault(); alert('Password updated successfully!');">
+                <div class="grid grid-cols-1 grid-lg-cols-3 gap-2">
+                  <div class="form-group mb-0">
+                    <label class="form-label">Current Password</label>
+                    <input type="password" class="form-control" placeholder="••••••••" required>
+                  </div>
+                  <div class="form-group mb-0">
+                    <label class="form-label">New Password</label>
+                    <input type="password" class="form-control" placeholder="••••••••" required>
+                  </div>
+                  <div class="form-group mb-0">
+                    <label class="form-label">Confirm New Password</label>
+                    <input type="password" class="form-control" placeholder="••••••••" required>
+                  </div>
+                </div>
+                <div class="mt-3">
+                  <button type="submit" class="btn btn-outline">Update Password</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script>
+    function switchTab(tabId, el) {
+      document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+      el.classList.add('active');
+      document.getElementById('tab-' + tabId).classList.add('active');
+    }
+
+    function saveProfile(e) {
+      e.preventDefault();
+      alert('Profile information updated successfully!');
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Financial Assistance - RuralFix & Agro MedKnow Nexus</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <style>
+    .scheme-card {
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      background: var(--color-bg-card);
+      transition: all var(--transition-normal);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    .scheme-card:hover {
+      border-color: var(--color-primary);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+    .calc-box {
+      background: linear-gradient(135deg, var(--color-bg-secondary) 0%, #FFFFFF 100%);
+      border: 2px solid var(--color-secondary);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+    }
+    .filter-tab {
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-color);
+      background: var(--color-bg-card);
+      color: var(--color-text-main);
+      font-weight: 500;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+    .filter-tab.active, .filter-tab:hover {
+      background: var(--color-primary);
+      color: white;
+      border-color: var(--color-primary);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="dashboard-layout">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div style="font-weight: 700; color: var(--color-primary); font-size: 1.25rem;">RURALFIX</div>
+        <div style="font-size: 0.8rem; color: var(--color-secondary); font-weight: 600;">AGRO MEDKNOW NEXUS</div>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="farmer-dashboard.html" class="nav-item">📊 Dashboard</a>
+        <a href="my-crops.html" class="nav-item">🌾 My Crops</a>
+        <a href="ai-recommendation.html" class="nav-item">🧠 AI Recommendation</a>
+        <a href="disease-detection.html" class="nav-item">🔍 Disease Detection</a>
+        <a href="market.html" class="nav-item">📈 Market Prices</a>
+        <a href="buyers.html" class="nav-item">🤝 Buyers Marketplace</a>
+        <a href="weather.html" class="nav-item">⛅ Weather Alerts</a>
+        <a href="financial.html" class="nav-item active">💰 Financial Assistance</a>
+        <a href="notifications.html" class="nav-item">🔔 Notifications</a>
+        <a href="profile.html" class="nav-item">👤 Profile</a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      
+      <!-- Topbar -->
+      <header class="topbar">
+        <div class="d-flex align-items-center gap-2">
+          <button class="mobile-menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+          <div class="topbar-search hide-on-mobile">
+            <input type="text" placeholder="Search schemes, subsidies, loans...">
+          </div>
+        </div>
+        
+        <div class="topbar-actions">
+          <div class="hide-on-mobile text-muted">📍 Pollachi, Coimbatore</div>
+          <a href="notifications.html" style="font-size: 1.25rem; position: relative;" title="Notifications">
+            🔔
+            <span style="position: absolute; top: -5px; right: -5px; background: var(--color-error); width: 10px; height: 10px; border-radius: 50%;"></span>
+          </a>
+          <a href="profile.html" style="width: 35px; height: 35px; background: var(--color-primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;" title="Profile">R</a>
+        </div>
+      </header>
+
+      <!-- Dashboard Content -->
+      <div class="dashboard-content">
+        
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+          <div>
+            <h1 style="font-size: 2rem; margin: 0;">Financial Assistance & Govt Subsidies</h1>
+            <p class="text-muted" style="margin: 0;">Explore schemes, crop insurance, low-interest credit, and calculate direct subsidy benefits.</p>
+          </div>
+          <button class="btn btn-primary" onclick="openApplyModal('General Inquiry')">📋 Apply For Subsidy</button>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="grid grid-cols-2 grid-lg-cols-4 mb-4">
+          <div class="card card-body">
+            <div class="text-muted mb-1" style="font-size: 0.85rem;">Enrolled Schemes</div>
+            <div style="font-size: 1.5rem; font-weight: 700; color: var(--color-primary);">3 Active</div>
+            <div style="font-size: 0.85rem; color: var(--color-success); margin-top: 0.5rem;">₹8,000 Received YTD</div>
+          </div>
+          
+          <div class="card card-body">
+            <div class="text-muted mb-1" style="font-size: 0.85rem;">KCC Credit Available</div>
+            <div style="font-size: 1.5rem; font-weight: 700; color: var(--color-primary);">₹1,80,000</div>
+            <div style="font-size: 0.85rem; color: var(--color-success); margin-top: 0.5rem;">4% Subsidized Interest</div>
+          </div>
+          
+          <div class="card card-body">
+            <div class="text-muted mb-1" style="font-size: 0.85rem;">Insurance Coverage</div>
+            <div style="font-size: 1.5rem; font-weight: 700; color: var(--color-primary);">₹1,50,000</div>
+            <div style="font-size: 0.85rem; color: #3182CE; margin-top: 0.5rem;">PMFBY Kharif 2026</div>
+          </div>
+          
+          <div class="card card-body" style="background-color: #E8F5E9; border-color: var(--color-secondary);">
+            <div class="text-muted mb-1" style="font-size: 0.85rem;">Max Subsidy Offset</div>
+            <div style="font-size: 1.5rem; font-weight: 700; color: var(--color-primary);">Up to 80%</div>
+            <div style="font-size: 0.85rem; color: var(--color-primary); margin-top: 0.5rem;">Equipment & Solar</div>
+          </div>
+        </div>
+
+        <!-- Loan & Subsidy Interactive Calculator -->
+        <div class="calc-box mb-4">
+          <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+            <div>
+              <h3 style="margin: 0; color: var(--color-primary);">🧮 Interactive Subsidy & EMI Calculator</h3>
+              <p class="text-muted" style="margin: 0; font-size: 0.9rem;">Estimate your net out-of-pocket cost and monthly installment after government subsidy support.</p>
+            </div>
+            <span class="badge badge-primary">Instant Estimate</span>
+          </div>
+
+          <div class="grid grid-cols-1 grid-lg-cols-3 gap-3">
+            
+            <div class="form-group mb-0">
+              <label class="form-label">Total Equipment / Project Cost (₹)</label>
+              <input type="number" id="calcCost" class="form-control" value="100000" oninput="calculateFinancials()">
+            </div>
+
+            <div class="form-group mb-0">
+              <label class="form-label">Govt Subsidy Rate (%)</label>
+              <select id="calcSubsidy" class="form-control" onchange="calculateFinancials()">
+                <option value="50">50% (SMAM Farm Equipment)</option>
+                <option value="70">70% (TN Solar Pump Scheme)</option>
+                <option value="80">80% (Micro-Irrigation / Drip)</option>
+                <option value="25">25% (General Agri Credit)</option>
+                <option value="0">0% (Standard Credit)</option>
+              </select>
+            </div>
+
+            <div class="form-group mb-0">
+              <label class="form-label">Loan Tenure (Years)</label>
+              <select id="calcTenure" class="form-control" onchange="calculateFinancials()">
+                <option value="1">1 Year</option>
+                <option value="2">2 Years</option>
+                <option value="3" selected>3 Years</option>
+                <option value="5">5 Years</option>
+              </select>
+            </div>
+
+          </div>
+
+          <!-- Output Banner -->
+          <div class="grid grid-cols-1 grid-lg-cols-3 gap-2 mt-4 p-3 style-box" style="background: white; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+            <div class="text-center">
+              <div class="text-muted" style="font-size: 0.85rem;">Govt Subsidy Amount</div>
+              <div style="font-size: 1.4rem; font-weight: 700; color: var(--color-success);" id="outSubsidy">₹50,000</div>
+            </div>
+            <div class="text-center" style="border-left: 1px solid var(--border-color); border-right: 1px solid var(--border-color);">
+              <div class="text-muted" style="font-size: 0.85rem;">Net Loan Amount</div>
+              <div style="font-size: 1.4rem; font-weight: 700; color: var(--color-primary);" id="outNetLoan">₹50,000</div>
+            </div>
+            <div class="text-center">
+              <div class="text-muted" style="font-size: 0.85rem;">Estimated Monthly EMI (at 4% p.a.)</div>
+              <div style="font-size: 1.4rem; font-weight: 700; color: #D69E2E;" id="outEMI">₹1,476 / mo</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="d-flex gap-2 mb-4 overflow-x-auto pb-1">
+          <button class="filter-tab active" onclick="filterSchemes('all', this)">All Schemes (5)</button>
+          <button class="filter-tab" onclick="filterSchemes('subsidy', this)">🎁 Subsidies & Grants</button>
+          <button class="filter-tab" onclick="filterSchemes('insurance', this)">🛡️ Crop Insurance</button>
+          <button class="filter-tab" onclick="filterSchemes('loan', this)">💳 Subsidized Credit</button>
+        </div>
+
+        <!-- Schemes Grid -->
+        <div class="grid grid-cols-1 grid-lg-cols-3 gap-3 mb-4" id="schemesContainer">
+          
+          <!-- Scheme Item 1 -->
+          <div class="scheme-card" data-category="subsidy">
+            <div class="card-body" style="flex: 1;">
+              <div class="d-flex justify-content-between align-items-start mb-2">
+                <span class="badge badge-success">Govt Direct Benefit</span>
+                <span style="font-weight: bold; color: var(--color-primary);">₹6,000 / year</span>
+              </div>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">PM-KISAN Samman Nidhi</h3>
+              <p class="text-muted" style="font-size: 0.85rem; margin-bottom: 1rem;">
+                Direct income support of ₹6,000 per year transferred in 3 equal installments into landholding farmer bank accounts.
+              </p>
+              <div style="font-size: 0.8rem; background: var(--color-bg-main); padding: 0.5rem; border-radius: var(--radius-sm);" class="mb-3">
+                <strong>Eligibility:</strong> Small & Marginal Farmers holding cultivable land.
+              </div>
+            </div>
+            <div class="card-footer d-flex justify-content-between align-items-center">
+              <span class="badge badge-success">Enrolled • Active</span>
+              <button class="btn btn-outline" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;" onclick="openApplyModal('PM-KISAN Status Check')">View Status</button>
+            </div>
+          </div>
+
+          <!-- Scheme Item 2 -->
+          <div class="scheme-card" data-category="insurance">
+            <div class="card-body" style="flex: 1;">
+              <div class="d-flex justify-content-between align-items-start mb-2">
+                <span class="badge badge-warning">Crop Coverage</span>
+                <span style="font-weight: bold; color: var(--color-primary);">Up to ₹50,000 / acre</span>
+              </div>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Pradhan Mantri Fasal Bima (PMFBY)</h3>
+              <p class="text-muted" style="font-size: 0.85rem; margin-bottom: 1rem;">
+                Comprehensive crop risk coverage against natural calamities, pests, and localized storms with nominal farmer premium (1.5% - 2%).
+              </p>
+              <div style="font-size: 0.8rem; background: var(--color-bg-main); padding: 0.5rem; border-radius: var(--radius-sm);" class="mb-3">
+                <strong>Current Window:</strong> Kharif Season Enrollment open until end of month.
+              </div>
+            </div>
+            <div class="card-footer d-flex justify-content-between align-items-center">
+              <span class="text-muted" style="font-size: 0.8rem;">Premium: ~₹450/acre</span>
+              <button class="btn btn-primary" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;" onclick="openApplyModal('PMFBY Crop Insurance')">Apply Now</button>
+            </div>
+          </div>
+
+          <!-- Scheme Item 3 -->
+          <div class="scheme-card" data-category="loan">
+            <div class="card-body" style="flex: 1;">
+              <div class="d-flex justify-content-between align-items-start mb-2">
+                <span class="badge badge-primary">Low Interest Credit</span>
+                <span style="font-weight: bold; color: var(--color-primary);">4% Interest p.a.</span>
+              </div>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Kisan Credit Card (KCC) Scheme</h3>
+              <p class="text-muted" style="font-size: 0.85rem; margin-bottom: 1rem;">
+                Revolving credit line up to ₹3,000,000 for purchasing seeds, fertilizers, pesticides, and meeting harvesting expenses.
+              </p>
+              <div style="font-size: 0.8rem; background: var(--color-bg-main); padding: 0.5rem; border-radius: var(--radius-sm);" class="mb-3">
+                <strong>Subvention:</strong> 3% prompt repayment incentive brings interest rate down to 4%.
+              </div>
+            </div>
+            <div class="card-footer d-flex justify-content-between align-items-center">
+              <span class="badge badge-success">Approved (SBI Bank)</span>
+              <button class="btn btn-outline" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;" onclick="openApplyModal('KCC Renewal / Limit Increase')">Manage Card</button>
+            </div>
+          </div>
+
+          <!-- Scheme Item 4 -->
+          <div class="scheme-card" data-category="subsidy">
+            <div class="card-body" style="flex: 1;">
+              <div class="d-flex justify-content-between align-items-start mb-2">
+                <span class="badge badge-success">80% Subsidy</span>
+                <span style="font-weight: bold; color: var(--color-primary);">Micro-Irrigation</span>
+              </div>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">TN Drip & Sprinkler Subsidy Scheme</h3>
+              <p class="text-muted" style="font-size: 0.85rem; margin-bottom: 1rem;">
+                Government covers 100% subsidy for small/marginal farmers and 75% for other farmers installing micro-irrigation systems.
+              </p>
+              <div style="font-size: 0.8rem; background: var(--color-bg-main); padding: 0.5rem; border-radius: var(--radius-sm);" class="mb-3">
+                <strong>Includes:</strong> Drip lines, fertigation tanks, lateral filters & installation.
+              </div>
+            </div>
+            <div class="card-footer d-flex justify-content-between align-items-center">
+              <span class="text-muted" style="font-size: 0.8rem;">Horticulture Dept</span>
+              <button class="btn btn-primary" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;" onclick="openApplyModal('Drip Irrigation Subsidy')">Apply Now</button>
+            </div>
+          </div>
+
+          <!-- Scheme Item 5 -->
+          <div class="scheme-card" data-category="subsidy">
+            <div class="card-body" style="flex: 1;">
+              <div class="d-flex justify-content-between align-items-start mb-2">
+                <span class="badge badge-success">70% Grant</span>
+                <span style="font-weight: bold; color: var(--color-primary);">Off-Grid Solar</span>
+              </div>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Chief Minister Solar Pump Scheme</h3>
+              <p class="text-muted" style="font-size: 0.85rem; margin-bottom: 1rem;">
+                Provision of 5HP and 7.5HP standalone solar powered water pump sets with 70% state/central government subsidy grant.
+              </p>
+              <div style="font-size: 0.8rem; background: var(--color-bg-main); padding: 0.5rem; border-radius: var(--radius-sm);" class="mb-3">
+                <strong>Requirement:</strong> Open well or borewell with adequate water discharge.
+              </div>
+            </div>
+            <div class="card-footer d-flex justify-content-between align-items-center">
+              <span class="text-muted" style="font-size: 0.8rem;">AED Tamil Nadu</span>
+              <button class="btn btn-primary" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;" onclick="openApplyModal('Solar Pump Grant')">Apply Now</button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Apply Modal -->
+  <div id="applyModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+    <div class="card" style="width: 100%; max-width: 520px; padding: 1.5rem; max-height: 90vh; overflow-y: auto;">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 style="margin: 0; font-size: 1.2rem;" id="applyModalTitle">Scheme Application Form</h3>
+        <button style="background: none; border: none; font-size: 1.5rem; cursor: pointer;" onclick="document.getElementById('applyModal').style.display='none'">×</button>
+      </div>
+      <form onsubmit="submitSchemeForm(event)">
+        <div class="form-group">
+          <label class="form-label">Applicant Name</label>
+          <input type="text" class="form-control" value="Ramesh Kumar" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Aadhaar / Farmer ID</label>
+          <input type="text" class="form-control" value="XXXX-XXXX-9842" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Land Size & Survey Number</label>
+          <input type="text" class="form-control" placeholder="e.g. 4.5 Acres (Survey # 142/2B, Pollachi)" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Bank Account Number for Direct Benefit</label>
+          <input type="text" class="form-control" value="SBI - 38492014892" required>
+        </div>
+        <div class="d-flex gap-2 mt-4">
+          <button type="button" class="btn btn-outline" style="flex: 1;" onclick="document.getElementById('applyModal').style.display='none'">Cancel</button>
+          <button type="submit" class="btn btn-primary" style="flex: 1;">Submit Application</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function calculateFinancials() {
+      const cost = parseFloat(document.getElementById('calcCost').value) || 0;
+      const subsidyPct = parseFloat(document.getElementById('calcSubsidy').value) || 0;
+      const tenureYears = parseInt(document.getElementById('calcTenure').value) || 1;
+
+      const subsidyVal = cost * (subsidyPct / 100);
+      const netLoanVal = Math.max(0, cost - subsidyVal);
+
+      // Monthly interest rate for 4% p.a.
+      const annualRate = 0.04;
+      const monthlyRate = annualRate / 12;
+      const numPayments = tenureYears * 12;
+
+      let emi = 0;
+      if (netLoanVal > 0 && numPayments > 0) {
+        emi = (netLoanVal * monthlyRate * Math.pow(1 + monthlyRate, numPayments)) / (Math.pow(1 + monthlyRate, numPayments) - 1);
+      }
+
+      document.getElementById('outSubsidy').innerText = '₹' + Math.round(subsidyVal).toLocaleString('en-IN');
+      document.getElementById('outNetLoan').innerText = '₹' + Math.round(netLoanVal).toLocaleString('en-IN');
+      document.getElementById('outEMI').innerText = '₹' + Math.round(emi).toLocaleString('en-IN') + ' / mo';
+    }
+
+    function filterSchemes(cat, btn) {
+      document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+
+      document.querySelectorAll('.scheme-card').forEach(card => {
+        if (cat === 'all' || card.getAttribute('data-category') === cat) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function openApplyModal(schemeName) {
+      document.getElementById('applyModalTitle').innerText = 'Application: ' + schemeName;
+      document.getElementById('applyModal').style.display = 'flex';
+    }
+
+    function submitSchemeForm(e) {
+      e.preventDefault();
+      document.getElementById('applyModal').style.display = 'none';
+      alert('Application submitted successfully! Tracking reference ID: #TN-AGRI-2026-9842. You will receive SMS updates.');
+    }
+
+    // Run initial calculation
+    calculateFinancials();
+  </script>
+</body>
+</html>
